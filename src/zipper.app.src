@@ -1,0 +1,10 @@
+{
+  application, zipper,
+  [
+   {description, "Generic Zipper Implementation for Erlang"},
+   {vsn, "0.1.0"},
+   {applications, [kernel, stdlib]},
+   {modules, []},
+   {registered, []}
+  ]
+}.
