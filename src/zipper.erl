@@ -10,6 +10,7 @@
          next/1,
          prev/1,
          root/1,
+         traverse/2,
          %% Info
          node/1,
          children/1
@@ -19,6 +20,8 @@
         #{is_branch => fun(),
           make_node => fun(),
           children => fun()}.
+
+-type operation() :: next | prev | up | down | left | right | root.
 
 -spec new(fun(), fun(), fun(), term()) -> zipper().
 new(_IsBranch, _Children, _MakeNode, _Root) ->
@@ -58,4 +61,8 @@ node(_Zipper) ->
 
 -spec children(zipper()) -> zipper().
 children(_Zipper) ->
+    #{}.
+
+-spec traverse([operation()], zipper()) -> zipper().
+traverse(_Operations, _Zipper) ->
     #{}.

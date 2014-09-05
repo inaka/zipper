@@ -7,7 +7,8 @@
 -export([
          zipper_new/1,
          zipper_node/1,
-         zipper_next/1
+         zipper_next/1,
+         zipper_prev/1
         ]).
 
 -define(EXCLUDED_FUNS,
@@ -106,6 +107,25 @@ zipper_next(_Config) ->
                               children => []}
                            ]
               }.
+
+-spec zipper_prev(config()) -> ok.
+zipper_prev(_Config) ->
+    Zipper = map_tree_zipper(?ROOT),
+    undefined = zipper:prev(Zipper),
+
+    Zipper = zipper:traverse([next, prev], Zipper),
+    Zipper1 = zipper:traverse([next, next, next], Zipper),
+
+    Brasil = zipper:node(Zipper1),
+    Brasil = #{type => country,
+               attrs => #{name => "Brasil"},
+               children => []},
+
+    Zipper2 = zipper:prev(Zipper1),
+    Argentina = zipper:node(Zipper2),
+    Argentina =  #{type => country,
+                   attrs => #{name => "Argentina"},
+                   children => []}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Helper functions
