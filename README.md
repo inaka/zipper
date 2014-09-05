@@ -4,7 +4,7 @@ Generic zipper implementation in Erlang.
 
 ## Zippers: what are they good for?
 
-Zippers let you traverse immutable data structures
+Zippers let you traverse immutable data structures with ease and flexibility.
 
 ## Usage
 
