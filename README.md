@@ -8,17 +8,10 @@ Zippers let you traverse immutable data structures with ease and flexibility.
 
 ## Usage
 
-To create a  a zipper for a nested map tree structure where tree node
-has the following form:
+For a map tree structure like the following:
 
 ```erlang
-#{type => city,
-  attrs => #{name => "Buenos Aires"},
-  children => []}
-```
-
-```erlang
-Root = #{type => world,
+Root = #{type => planet,
          attrs => #{name => "Earth"},
          children => [
            #{type => continent,
@@ -45,7 +38,19 @@ Root = #{type => world,
             }
          ]
         },
+```
 
+You can build a zipper by providing three simple functions:
+- `IsBranchFun`: takes a node and returns `true` if it is a branch node or
+  `false` otherwise.
+- `ChildrenFun`: takes a node and returns a list of its nodes.
+- `MakeNodeFun`: takes a node and a list of children and returns a new node
+  containg the supplied list as children.
+
+This is an example of how you would define a zipper and then use it to traverse
+the map tree structure above:
+
+```erlang
 %% Create the zipper
 IsBranchFun = fun is_map/1,
 ChildrenFun = fun(Node) -> maps:get(children, Node) end,
