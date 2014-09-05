@@ -6,4 +6,3 @@ deps
 erl_crash.dump
 ebin
 .erlang.mk.*
-log*/
