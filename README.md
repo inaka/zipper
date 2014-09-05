@@ -74,3 +74,8 @@ io:format("~p", [America]),
 %%=   attrs => #{name => "America"},
 %%=   children => [#{...}, #{...}]}
 ```
+
+## References
+
+- [The Zipper, GERARD HUET](https://www.st.cs.uni-saarland.de/edu/seminare/2005/advanced-fp/docs/huet-zipper.pdf)
+- [clojure.zip](http://clojure.github.io/clojure/clojure.zip-api.html#clojure.zip/zipper)
