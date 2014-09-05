@@ -1,5 +1,3 @@
-# zipper
-
 Generic zipper implementation in Erlang.
 
 ## Zippers: what are they good for?
