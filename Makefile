@@ -16,3 +16,6 @@ CT_SUITES = zipper
 
 shell: app
 	erl -pa ebin -pa deps/*/ebin -s sync
+
+tests-shell: app build-ct-suites
+	erl -pa ebin -pa deps/*/ebin -pa test -s sync
