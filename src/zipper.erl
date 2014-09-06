@@ -30,7 +30,6 @@ new(IsBranch, Children, MakeNode, Root) ->
       children => Children,
       make_node => MakeNode,
       node => Root,
-      parent_nodes => [],
       lefts => [],
       rights => [],
       parent_zipper => undefined
@@ -43,14 +42,13 @@ up(#{parent_zipper := ParentZipper}) ->
     ParentZipper.
 
 -spec down(zipper()) -> zipper() | not_branch.
-down(Zipper = #{node := Node, children := Children, parent_nodes := Parents}) ->
+down(Zipper = #{node := Node, children := Children}) ->
     case is_branch(Zipper) of
         true ->
             [NewNode | Rights] = Children(Node),
             Zipper#{node => NewNode,
                     lefts => [],
                     rights => Rights,
-                    parent_nodes => [Node | Parents],
                     parent_zipper => Zipper
                    };
         false ->
