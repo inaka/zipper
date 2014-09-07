@@ -115,15 +115,10 @@ is_end(_Zipper) ->
     false.
 
 -spec prev(zipper()) -> zipper().
-prev(Zipper = #{lefts := []}) ->
+prev(Zipper = #{info := #{lefts := []}}) ->
     up(Zipper);
 prev(Zipper) ->
-    case left(Zipper) of
-        undefined ->
-            up(Zipper);
-        Left ->
-            prev_recur(Left)
-    end.
+    prev_recur(left(Zipper)).
 
 prev_recur(Zipper) ->
     case down(Zipper) of

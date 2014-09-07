@@ -51,7 +51,14 @@ zipper_children(_Config) ->
     Root = root(),
     Zipper = map_tree_zipper(Root),
     Children = zipper:children(Zipper),
-    Children = maps:get(children, Root).
+    Children = maps:get(children, Root),
+
+    ArgZipper = zipper:traverse([next, next], Zipper),
+    ok = try
+             zipper:children(ArgZipper)
+         catch
+             throw:children_on_leaf -> ok
+         end.
 
 -spec zipper_root(config()) -> ok.
 zipper_root(_Config) ->
@@ -110,6 +117,7 @@ zipper_up(_Config) ->
                               children => []}
                            ]
                },
+
     Zipper3 = zipper:up(Zipper2),
     Earth = zipper:node(Zipper3),
     Earth = root().
@@ -144,12 +152,15 @@ zipper_left(_Config) ->
     Argentina = zipper:node(Zipper2),
     Argentina = #{type => country,
                   attrs => #{name => "Argentina"},
-                  children => []}.
+                  children => []},
+
+    undefined = zipper:left(Zipper2).
 
 -spec zipper_next(config()) -> ok.
 zipper_next(_Config) ->
     Zipper = map_tree_zipper(root()),
     Zipper1 = zipper:next(Zipper),
+    false = zipper:is_end(Zipper),
 
     Zipper2 = zipper:next(Zipper1),
     Argentina = zipper:node(Zipper2),
@@ -201,18 +212,62 @@ zipper_prev(_Config) ->
     undefined = zipper:prev(Zipper),
 
     Zipper = zipper:traverse([next, prev], Zipper),
-    Zipper1 = zipper:traverse([next, next, next], Zipper),
+    Zipper1 = zipper:traverse([next, next, next, next, next, next], Zipper),
 
-    Brasil = zipper:node(Zipper1),
+    England = zipper:node(Zipper1),
+    England = #{type => country,
+               attrs => #{name => "England"},
+               children => []},
+
+    Zipper2 = zipper:prev(Zipper1),
+    Sweden = zipper:node(Zipper2),
+    Sweden = #{type => country,
+               attrs => #{name => "Sweden"},
+               children => []},
+
+    Zipper3 = zipper:prev(Zipper2),
+    Europe = zipper:node(Zipper3),
+    Europe = #{type => continent,
+               attrs => #{name => "Europe"},
+               children => [
+                            #{type => country,
+                              attrs => #{name => "Sweden"},
+                              children => []},
+                            #{type => country,
+                              attrs => #{name => "England"},
+                              children => []}
+                           ]
+              },
+
+    Zipper4 = zipper:prev(Zipper3),
+    Brasil = zipper:node(Zipper4),
     Brasil = #{type => country,
                attrs => #{name => "Brasil"},
                children => []},
 
-    Zipper2 = zipper:prev(Zipper1),
-    Argentina = zipper:node(Zipper2),
+    Zipper5 = zipper:prev(Zipper4),
+    Argentina = zipper:node(Zipper5),
     Argentina =  #{type => country,
                    attrs => #{name => "Argentina"},
-                   children => []}.
+                   children => []},
+
+    Zipper6 = zipper:prev(Zipper5),
+    America = zipper:node(Zipper6),
+    America =  #{type => continent,
+               attrs => #{name => "America"},
+               children => [
+                            #{type => country,
+                              attrs => #{name => "Argentina"},
+                              children => []},
+                            #{type => country,
+                              attrs => #{name => "Brasil"},
+                              children => []}
+                           ]
+                },
+
+    Zipper7 = zipper:prev(Zipper6),
+    Earth = zipper:node(Zipper7),
+    Earth = root().
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Helper functions
