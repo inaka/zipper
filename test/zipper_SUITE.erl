@@ -5,7 +5,6 @@
         ]).
 
 -export([
-         zipper_new/1,
          zipper_node/1,
          zipper_children/1,
          zipper_root/1,
@@ -40,14 +39,6 @@ all() ->
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Test cases
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
--spec zipper_new(config()) -> ok.
-zipper_new(_Config) ->
-    Zipper = map_tree_zipper(root()),
-
-    maps:get(is_branch, Zipper),
-    maps:get(children, Zipper),
-    maps:get(make_node, Zipper).
 
 -spec zipper_node(config()) -> ok.
 zipper_node(_Config) ->
