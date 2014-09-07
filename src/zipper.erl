@@ -8,6 +8,7 @@
          left/1,
          right/1,
          next/1,
+         is_end/1,
          prev/1,
          root/1,
          traverse/2,
@@ -26,58 +27,69 @@
 
 -spec new(fun(), fun(), fun(), term()) -> zipper().
 new(IsBranch, Children, MakeNode, Root) ->
-    #{is_branch => IsBranch,
-      children => Children,
-      make_node => MakeNode,
+    #{spec => #{is_branch => IsBranch,
+                children => Children,
+                make_node => MakeNode
+                },
       node => Root,
-      lefts => [],
-      rights => [],
-      parent_zipper => undefined
+      info => #{lefts => [],
+                rights => [],
+                parent_node => undefined,
+                parent_info => undefined
+               }
      }.
 
--spec up(zipper()) -> zipper() | at_root.
-up(#{parent_zipper := undefined}) ->
-    at_root;
-up(#{parent_zipper := ParentZipper}) ->
-    ParentZipper.
+-spec up(zipper()) -> zipper() | undefined.
+up(#{info := #{parent_node := undefined}}) ->
+    undefined;
+up(Zipper = #{info := #{parent_node := Parent,
+                         parent_info := ParentInfo}}) ->
+    Zipper#{node => Parent,
+            info => ParentInfo}.
 
--spec down(zipper()) -> zipper() | not_branch.
-down(Zipper = #{node := Node, children := Children}) ->
+-spec down(zipper()) -> zipper() | undefined.
+down(Zipper = #{node := Node,
+                info := Info,
+                spec := #{children := Children}}) ->
     case is_branch(Zipper) of
         true ->
             [NewNode | Rights] = Children(Node),
             Zipper#{node => NewNode,
-                    lefts => [],
-                    rights => Rights,
-                    parent_zipper => Zipper
+                    info => #{lefts => [],
+                              rights => Rights,
+                              parent_node => Node,
+                              parent_info => Info
+                             }
                    };
         false ->
             undefined
     end.
 
 -spec left(zipper()) -> zipper().
-left(#{lefts := []}) ->
+left(#{info := #{lefts := []}}) ->
     undefined;
-left(Zipper = #{lefts := [NewNode | Lefts],
-                rights := Rights,
+left(Zipper = #{info := Info = #{lefts := [NewNode | Lefts],
+                                 rights := Rights},
                 node := Node}) ->
-    Zipper#{lefts => Lefts,
-            rights => [Node | Rights],
+    Zipper#{info => Info#{lefts => Lefts,
+                          rights => [Node | Rights]},
             node => NewNode
            }.
 
 -spec right(zipper()) -> zipper().
-right(#{rights := []}) ->
+right(#{info := #{rights := []}}) ->
     undefined;
-right(Zipper = #{rights := [NewNode | Rights],
-                 lefts := Lefts,
+right(Zipper = #{info := Info = #{rights := [NewNode | Rights],
+                                  lefts := Lefts},
                  node := Node}) ->
-    Zipper#{rights := Rights,
-            lefts := [Node | Lefts],
+    Zipper#{info => Info#{rights := Rights,
+                          lefts := [Node | Lefts]},
             node := NewNode
            }.
 
--spec next(zipper()) -> zipper() | 'end'.
+-spec next(zipper()) -> zipper().
+next(Zipper = #{info := 'end'}) ->
+    Zipper;
 next(Zipper) ->
     case {is_branch(Zipper), right(Zipper)} of
         {true, _} -> down(Zipper);
@@ -85,16 +97,22 @@ next(Zipper) ->
         {false, Right} -> Right
     end.
 
--spec next_recur(zipper()) -> zipper() | 'end'.
+-spec next_recur(zipper()) -> zipper().
 next_recur(Zipper) ->
     case up(Zipper) of
-        at_root -> 'end';
+        undefined -> Zipper#{info => 'end'};
         UpZipper ->
             case right(UpZipper) of
                 undefined -> next_recur(UpZipper);
                 Next -> Next
             end
     end.
+
+-spec is_end(zipper()) -> boolean().
+is_end(#{info := 'end'}) ->
+    true;
+is_end(_Zipper) ->
+    false.
 
 -spec prev(zipper()) -> zipper().
 prev(Zipper = #{lefts := []}) ->
@@ -115,17 +133,19 @@ prev_recur(Zipper) ->
             prev_recur(RightMost)
     end.
 
-rightmost(Zipper = #{rights := Rights, lefts := Lefts, node := Node}) ->
+rightmost(Zipper = #{info := Info = #{rights := Rights,
+                                      lefts := Lefts},
+                     node := Node}) ->
     Fun = fun(Item, Acc) -> [Item | Acc] end,
     [NewNode | NewLefts] = lists:foldl(Fun,  [Node | Lefts], Rights),
-    Zipper#{lefts => NewLefts,
-            rights => [],
+    Zipper#{info => Info#{lefts => NewLefts,
+                          rights => []},
             node => NewNode}.
 
 -spec root(zipper()) -> zipper().
 root(Zipper) ->
     case up(Zipper) of
-        at_root -> zipper:node(Zipper);
+        undefined -> zipper:node(Zipper);
         Parent -> root(Parent)
     end.
 
@@ -140,12 +160,12 @@ node(#{node := Node}) ->
     Node.
 
 -spec children(zipper()) -> zipper().
-children(Zipper = #{children := Children, node := Node}) ->
+children(Zipper = #{spec := #{children := Children}, node := Node}) ->
     case is_branch(Zipper) of
         true -> Children(Node);
         false -> throw(children_on_leaf)
     end.
 
 -spec is_branch(zipper()) -> boolean().
-is_branch(#{is_branch := IsBranch, node := Node}) ->
+is_branch(#{spec := #{is_branch := IsBranch}, node := Node}) ->
     IsBranch(Node).

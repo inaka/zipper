@@ -88,7 +88,7 @@ zipper_down(_Config) ->
 -spec zipper_up(config()) -> ok.
 zipper_up(_Config) ->
     Zipper = map_tree_zipper(root()),
-    at_root = zipper:up(Zipper),
+    undefined = zipper:up(Zipper),
 
     Zipper1 = zipper:traverse([down, down], Zipper),
 
@@ -150,8 +150,8 @@ zipper_left(_Config) ->
 zipper_next(_Config) ->
     Zipper = map_tree_zipper(root()),
     Zipper1 = zipper:next(Zipper),
-    Zipper2 = zipper:next(Zipper1),
 
+    Zipper2 = zipper:next(Zipper1),
     Argentina = zipper:node(Zipper2),
     Argentina =  #{type => country,
                    attrs => #{name => "Argentina"},
@@ -177,12 +177,28 @@ zipper_next(_Config) ->
                            ]
               },
 
-    'end' = zipper:traverse([next, next, next, next, next, next, next], Zipper).
+
+    Zipper5 = zipper:next(Zipper4),
+    Sweden = zipper:node(Zipper5),
+    Sweden =  #{type => country,
+                   attrs => #{name => "Sweden"},
+                   children => []},
+
+    Zipper6 = zipper:next(Zipper5),
+    England = zipper:node(Zipper6),
+    England = #{type => country,
+               attrs => #{name => "England"},
+               children => []},
+
+    ZipperEnd = zipper:next(Zipper6),
+    true = zipper:is_end(ZipperEnd),
+    ZipperEnd = zipper:next(ZipperEnd),
+    true = zipper:is_end(ZipperEnd).
 
 -spec zipper_prev(config()) -> ok.
 zipper_prev(_Config) ->
     Zipper = map_tree_zipper(root()),
-    at_root = zipper:prev(Zipper),
+    undefined = zipper:prev(Zipper),
 
     Zipper = zipper:traverse([next, prev], Zipper),
     Zipper1 = zipper:traverse([next, next, next], Zipper),
