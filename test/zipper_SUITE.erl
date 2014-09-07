@@ -213,8 +213,8 @@ zipper_prev(_Config) ->
 
 map_tree_zipper(Root) ->
     IsBranchFun = fun
-                      (#{children := []}) -> false;
-                      (#{children := _Children}) -> true
+                      (#{children := [_ | _]}) -> true;
+                      (_) -> false
                      end,
     ChildrenFun = fun(Node) -> maps:get(children, Node) end,
     MakeNodeFun = fun(Node, Children) -> Node#{children => Children} end,
