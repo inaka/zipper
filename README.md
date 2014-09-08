@@ -41,7 +41,7 @@ Root = #{type => planet,
 You can build a zipper by providing three simple functions:
 - `IsBranchFun`: takes a node and returns `true` if it is a branch node or
   `false` otherwise.
-- `ChildrenFun`: takes a node and returns a list of its nodes.
+- `ChildrenFun`: takes a node and returns a list of its children.
 - `MakeNodeFun`: takes a node and a list of children and returns a new node
   containg the supplied list as children.
 
@@ -50,6 +50,10 @@ the map tree structure above:
 
 ```erlang
 %% Create the zipper
+IsBranchFun = fun
+                  (#{children := [_ | _]) -> true;
+                  (_) -> false
+              end,
 IsBranchFun = fun is_map/1,
 ChildrenFun = fun(Node) -> maps:get(children, Node) end,
 MakeNodeFun = fun(Node, Children) -> Node#{children => Children} end,

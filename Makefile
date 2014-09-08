@@ -13,6 +13,10 @@ ERLC_OPTS += +warn_export_vars +warn_exported_vars +warn_missing_spec +warn_unty
 # Commont Test Config
 
 CT_SUITES = zipper
+CT_OPTS = -cover test/zipper.coverspec
 
 shell: app
 	erl -pa ebin -pa deps/*/ebin -s sync
+
+tests-shell: app build-ct-suites
+	erl -pa ebin -pa deps/*/ebin -pa test -s sync
