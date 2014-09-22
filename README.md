@@ -20,7 +20,7 @@ Root = #{type => planet,
                  children => []},
                #{type => country,
                  attrs => #{name => "Brasil"},
-                 children => []},
+                 children => []}
              ]
             },
            #{type => continent,
@@ -31,7 +31,7 @@ Root = #{type => planet,
                  children => []},
                #{type => country,
                  attrs => #{name => "England"},
-                 children => []},
+                 children => []}
              ]
             }
          ]
