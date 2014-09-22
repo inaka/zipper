@@ -20,7 +20,7 @@ Root = #{type => planet,
                  children => []},
                #{type => country,
                  attrs => #{name => "Brasil"},
-                 children => []},
+                 children => []}
              ]
             },
            #{type => continent,
@@ -31,7 +31,7 @@ Root = #{type => planet,
                  children => []},
                #{type => country,
                  attrs => #{name => "England"},
-                 children => []},
+                 children => []}
              ]
             }
          ]
@@ -51,10 +51,9 @@ the map tree structure above:
 ```erlang
 %% Create the zipper
 IsBranchFun = fun
-                  (#{children := [_ | _]) -> true;
+                  (#{children := [_ | _]}) -> true;
                   (_) -> false
               end,
-IsBranchFun = fun is_map/1,
 ChildrenFun = fun(Node) -> maps:get(children, Node) end,
 MakeNodeFun = fun(Node, Children) -> Node#{children => Children} end,
 Zipper = zipper:new(fun is_map/1, ChildrenFun, MakeNodefun, Root),
