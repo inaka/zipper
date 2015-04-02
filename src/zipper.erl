@@ -6,12 +6,22 @@
          up/1,
          down/1,
          left/1,
+         leftmost/1,
          right/1,
+         rightmost/1,
          next/1,
          is_end/1,
          prev/1,
          root/1,
          traverse/2,
+         %% Editing
+         insert_left/2,
+         insert_right/2,
+         replace/2,
+         edit/2,
+         insert_child/2,
+         append_child/2,
+         remove/1,
          %% Info
          node/1,
          children/1,
@@ -30,7 +40,7 @@ new(IsBranch, Children, MakeNode, Root) ->
     #{spec => #{is_branch => IsBranch,
                 children => Children,
                 make_node => MakeNode
-                },
+               },
       node => Root,
       info => #{lefts => [],
                 rights => [],
@@ -43,7 +53,7 @@ new(IsBranch, Children, MakeNode, Root) ->
 up(#{info := #{parent_node := undefined}}) ->
     undefined;
 up(Zipper = #{info := #{parent_node := Parent,
-                         parent_info := ParentInfo}}) ->
+                        parent_info := ParentInfo}}) ->
     Zipper#{node => Parent,
             info => ParentInfo}.
 
@@ -76,6 +86,16 @@ left(Zipper = #{info := Info = #{lefts := [NewNode | Lefts],
             node => NewNode
            }.
 
+-spec leftmost(zipper()) -> zipper().
+leftmost(Zipper = #{info := Info = #{rights := Rights,
+                                     lefts := Lefts},
+                    node := Node}) ->
+    Fun = fun(Item, Acc) -> [Item | Acc] end,
+    [NewNode | NewLefts] = lists:foldl(Fun,  [Node | Lefts], Rights),
+    Zipper#{info => Info#{lefts => NewLefts,
+                          rights => []},
+            node => NewNode}.
+
 -spec right(zipper()) -> zipper().
 right(#{info := #{rights := []}}) ->
     undefined;
@@ -86,6 +106,16 @@ right(Zipper = #{info := Info = #{rights := [NewNode | Rights],
                           lefts := [Node | Lefts]},
             node := NewNode
            }.
+
+-spec rightmost(zipper()) -> zipper().
+rightmost(Zipper = #{info := Info = #{rights := Rights,
+                                      lefts := Lefts},
+                     node := Node}) ->
+    Fun = fun(Item, Acc) -> [Item | Acc] end,
+    [NewNode | NewLefts] = lists:foldl(Fun,  [Node | Lefts], Rights),
+    Zipper#{info => Info#{lefts => NewLefts,
+                          rights => []},
+            node => NewNode}.
 
 -spec next(zipper()) -> zipper().
 next(Zipper = #{info := 'end'}) ->
@@ -128,15 +158,6 @@ prev_recur(Zipper) ->
             prev_recur(RightMost)
     end.
 
-rightmost(Zipper = #{info := Info = #{rights := Rights,
-                                      lefts := Lefts},
-                     node := Node}) ->
-    Fun = fun(Item, Acc) -> [Item | Acc] end,
-    [NewNode | NewLefts] = lists:foldl(Fun,  [Node | Lefts], Rights),
-    Zipper#{info => Info#{lefts => NewLefts,
-                          rights => []},
-            node => NewNode}.
-
 -spec root(zipper()) -> zipper().
 root(Zipper) ->
     case up(Zipper) of
@@ -149,6 +170,34 @@ traverse([], Zipper) ->
     Zipper;
 traverse([Op | Rest], Zipper) ->
     traverse(Rest, zipper:Op(Zipper)).
+
+-spec insert_left(zipper(), term()) -> zipper().
+insert_left(Zipper, _) ->
+    Zipper.
+
+-spec insert_right(zipper(), term()) -> zipper().
+insert_right(Zipper, _) ->
+    Zipper.
+
+-spec replace(zipper(), term()) -> zipper().
+replace(Zipper, _) ->
+    Zipper.
+
+-spec edit(zipper(), term()) -> zipper().
+edit(Zipper, _) ->
+    Zipper.
+
+-spec insert_child(zipper(), term()) -> zipper().
+insert_child(Zipper, _) ->
+    Zipper.
+
+-spec append_child(zipper(), term()) -> zipper().
+append_child(Zipper, _) ->
+    Zipper.
+
+-spec remove(zipper()) -> zipper().
+remove(Zipper) ->
+    Zipper.
 
 -spec node(zipper()) -> zipper().
 node(#{node := Node}) ->
