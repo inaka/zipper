@@ -13,7 +13,9 @@
          zipper_up/1,
          zipper_down/1,
          zipper_left/1,
-         zipper_right/1
+         zipper_right/1,
+         zipper_leftmost/1,
+         zipper_rightmost/1
         ]).
 
 -define(EXCLUDED_FUNS,
@@ -268,6 +270,22 @@ zipper_prev(_Config) ->
     Zipper7 = zipper:prev(Zipper6),
     Earth = zipper:node(Zipper7),
     Earth = root().
+
+-spec zipper_leftmost(config()) -> ok.
+zipper_leftmost(_Config) ->
+    Zipper = map_tree_zipper(root()),
+    Zipper = zipper:leftmost(Zipper),
+
+    Argentina = zipper:traverse([down, down], Zipper),
+    Argentina = zipper:traverse([down, down, right, leftmost], Zipper).
+
+-spec zipper_rightmost(config()) -> ok.
+zipper_rightmost(_Config) ->
+    Zipper = map_tree_zipper(root()),
+    Zipper = zipper:rightmost(Zipper),
+
+    Europe = zipper:traverse([down, right], Zipper),
+    Europe = zipper:traverse([down, rightmost], Zipper).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Helper functions

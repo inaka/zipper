@@ -87,13 +87,15 @@ left(Zipper = #{info := Info = #{lefts := [NewNode | Lefts],
            }.
 
 -spec leftmost(zipper()) -> zipper().
-leftmost(Zipper = #{info := Info = #{rights := Rights,
-                                     lefts := Lefts},
+leftmost(Zipper = #{info := #{lefts := []}}) ->
+    Zipper;
+leftmost(Zipper = #{info := Info = #{lefts := Lefts,
+                                     rights := Rights},
                     node := Node}) ->
     Fun = fun(Item, Acc) -> [Item | Acc] end,
-    [NewNode | NewLefts] = lists:foldl(Fun,  [Node | Lefts], Rights),
-    Zipper#{info => Info#{lefts => NewLefts,
-                          rights => []},
+    [NewNode | NewRights] = lists:foldl(Fun,  [Node | Rights], Lefts),
+    Zipper#{info => Info#{lefts => [],
+                          rights => NewRights},
             node => NewNode}.
 
 -spec right(zipper()) -> zipper().
