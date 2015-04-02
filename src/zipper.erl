@@ -1,6 +1,7 @@
 -module(zipper).
 
 -export([
+         %% Creation
          new/4,
          %% Traverse
          up/1,
@@ -52,6 +53,17 @@ new(IsBranch, Children, MakeNode, Root) ->
 -spec up(zipper()) -> zipper() | undefined.
 up(#{info := #{parent_node := undefined}}) ->
     undefined;
+up(Zipper = #{spec := #{make_node := MakeNode},
+              node := Node,
+              info := #{lefts := Lefts,
+                        rights := Rights,
+                        parent_node := ParentNode,
+                        parent_info := ParentInfo,
+                        is_modified := true}}) ->
+    Children = lists:reverse(Lefts) ++ [Node | Rights],
+    NewParentNode = MakeNode(ParentNode, Children),
+    Zipper#{node => NewParentNode,
+            info => ParentInfo};
 up(Zipper = #{info := #{parent_node := Parent,
                         parent_info := ParentInfo}}) ->
     Zipper#{node => Parent,
@@ -68,8 +80,7 @@ down(Zipper = #{node := Node,
                     info => #{lefts => [],
                               rights => Rights,
                               parent_node => Node,
-                              parent_info => Info
-                             }
+                              parent_info => Info}
                    };
         false ->
             undefined
@@ -106,8 +117,7 @@ right(Zipper = #{info := Info = #{rights := [NewNode | Rights],
                  node := Node}) ->
     Zipper#{info => Info#{rights := Rights,
                           lefts := [Node | Lefts]},
-            node := NewNode
-           }.
+            node := NewNode}.
 
 -spec rightmost(zipper()) -> zipper().
 rightmost(Zipper = #{info := Info = #{rights := Rights,
@@ -173,28 +183,36 @@ traverse([], Zipper) ->
 traverse([Op | Rest], Zipper) ->
     traverse(Rest, zipper:Op(Zipper)).
 
--spec insert_left(zipper(), term()) -> zipper().
-insert_left(Zipper, _) ->
+-spec insert_left(term(), zipper()) -> zipper().
+insert_left(_, #{info := #{parent_node := undefined}}) ->
+    throw(insert_at_top);
+insert_left(Node, Zipper = #{info := Info = #{lefts := Lefts}}) ->
+    NewInfo = Info#{lefts => [Node | Lefts],
+                    is_modified => true},
+    Zipper#{info => NewInfo}.
+
+-spec insert_right(term(), zipper()) -> zipper().
+insert_right(_, #{info := #{parent_node := undefined}}) ->
+    throw(insert_at_top);
+insert_right(Node, Zipper = #{info := Info = #{rights := Rights}}) ->
+    NewInfo = Info#{rights => [Node | Rights],
+                    is_modified => true},
+    Zipper#{info => NewInfo}.
+
+-spec replace(term(), zipper()) -> zipper().
+replace(_, Zipper) ->
     Zipper.
 
--spec insert_right(zipper(), term()) -> zipper().
-insert_right(Zipper, _) ->
+-spec edit(term(), zipper()) -> zipper().
+edit(_, Zipper) ->
     Zipper.
 
--spec replace(zipper(), term()) -> zipper().
-replace(Zipper, _) ->
+-spec insert_child(term(), zipper()) -> zipper().
+insert_child(_, Zipper) ->
     Zipper.
 
--spec edit(zipper(), term()) -> zipper().
-edit(Zipper, _) ->
-    Zipper.
-
--spec insert_child(zipper(), term()) -> zipper().
-insert_child(Zipper, _) ->
-    Zipper.
-
--spec append_child(zipper(), term()) -> zipper().
-append_child(Zipper, _) ->
+-spec append_child(term(), zipper()) -> zipper().
+append_child(_, Zipper) ->
     Zipper.
 
 -spec remove(zipper()) -> zipper().
