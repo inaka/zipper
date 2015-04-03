@@ -19,7 +19,7 @@
          insert_left/2,
          insert_right/2,
          replace/2,
-         edit/2,
+         edit/3,
          insert_child/2,
          append_child/2,
          remove/1,
@@ -200,24 +200,55 @@ insert_right(Node, Zipper = #{info := Info = #{rights := Rights}}) ->
     Zipper#{info => NewInfo}.
 
 -spec replace(term(), zipper()) -> zipper().
-replace(_, Zipper) ->
-    Zipper.
+replace(Node, Zipper = #{info := Info}) ->
+    Zipper#{node => Node,
+            info => Info#{is_modified => true}}.
 
--spec edit(term(), zipper()) -> zipper().
-edit(_, Zipper) ->
-    Zipper.
+-spec edit(fun(), list(), zipper()) -> zipper().
+edit(Fun, Args, Zipper = #{node := Node, info := Info}) ->
+    NewNode = erlang:apply(Fun, [Node | Args]),
+    Zipper#{node => NewNode,
+            info => Info#{is_modified => true}}.
 
 -spec insert_child(term(), zipper()) -> zipper().
-insert_child(_, Zipper) ->
-    Zipper.
+insert_child(Child, Zipper = #{spec := #{make_node := MakeNode}}) ->
+    Node = zipper:node(Zipper),
+    Children  = zipper:children(Zipper),
+    NewNode = MakeNode(Node, [Child | Children]),
+    replace(NewNode, Zipper).
 
 -spec append_child(term(), zipper()) -> zipper().
-append_child(_, Zipper) ->
-    Zipper.
+append_child(Child, Zipper = #{spec := #{make_node := MakeNode}}) ->
+    Node = zipper:node(Zipper),
+    Children  = zipper:children(Zipper),
+    NewNode = MakeNode(Node, Children ++ [Child]),
+    replace(NewNode, Zipper).
 
 -spec remove(zipper()) -> zipper().
-remove(Zipper) ->
-    Zipper.
+remove(#{info := #{parent_node := undefined}}) ->
+    throw(remove_at_top);
+remove(#{spec := Spec = #{make_node := MakeNode},
+         info := #{lefts := [],
+                   rights := Rights,
+                   parent_node := ParentNode,
+                   parent_info := ParentInfo}}) ->
+    NewParentNode = MakeNode(ParentNode, Rights),
+    #{spec => Spec,
+      node => NewParentNode,
+      info => ParentInfo#{is_modified => true}};
+remove(#{spec := Spec,
+         info := Info  = #{lefts := [Node | Lefts]}}) ->
+    NewZipper = #{spec => Spec,
+                  node => Node,
+                  info => Info#{lefts => Lefts,
+                                is_modified => true}},
+    prev_removed(NewZipper).
+
+prev_removed(Zipper) ->
+    case down(Zipper) of
+        undefined -> Zipper;
+        Child -> prev_removed(rightmost(Child))
+    end.
 
 -spec node(zipper()) -> zipper().
 node(#{node := Node}) ->
