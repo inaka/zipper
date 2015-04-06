@@ -5,15 +5,27 @@
         ]).
 
 -export([
+         %% Info
          zipper_node/1,
          zipper_children/1,
+         %% Traverse
          zipper_root/1,
          zipper_next/1,
          zipper_prev/1,
          zipper_up/1,
          zipper_down/1,
          zipper_left/1,
-         zipper_right/1
+         zipper_right/1,
+         zipper_leftmost/1,
+         zipper_rightmost/1,
+         %% Editing
+         zipper_insert_left/1,
+         zipper_insert_right/1,
+         zipper_replace/1,
+         zipper_edit/1,
+         zipper_insert_child/1,
+         zipper_append_child/1,
+         zipper_remove/1
         ]).
 
 -define(EXCLUDED_FUNS,
@@ -268,6 +280,230 @@ zipper_prev(_Config) ->
     Zipper7 = zipper:prev(Zipper6),
     Earth = zipper:node(Zipper7),
     Earth = root().
+
+-spec zipper_leftmost(config()) -> ok.
+zipper_leftmost(_Config) ->
+    Zipper = map_tree_zipper(root()),
+    Zipper = zipper:leftmost(Zipper),
+
+    Argentina = zipper:traverse([down, down], Zipper),
+    Argentina = zipper:traverse([down, down, right, leftmost], Zipper).
+
+-spec zipper_rightmost(config()) -> ok.
+zipper_rightmost(_Config) ->
+    Zipper = map_tree_zipper(root()),
+    Zipper = zipper:rightmost(Zipper),
+
+    Europe = zipper:traverse([down, right], Zipper),
+    Europe = zipper:traverse([down, rightmost], Zipper).
+
+-spec zipper_insert_left(config()) -> ok.
+zipper_insert_left(_Config) ->
+    Zipper = map_tree_zipper(root()),
+    ok = try
+             zipper:insert_left(#{}, Zipper)
+         catch
+             _:insert_at_top -> ok
+         end,
+
+    AfricaNode = #{type => continent,
+                   attrs => #{name => "Africa"},
+                   children => [#{type => country,
+                                  attrs => #{name => "Kenya"},
+                                  children => []},
+                                #{type => country,
+                                  attrs => #{name => "Egypt"},
+                                  children => []},
+                                #{type => country,
+                                  attrs => #{name => "South Africa"},
+                                  children => []}
+                               ]
+                  },
+    America = zipper:traverse([down], Zipper),
+    AmericaInserted = zipper:insert_left(AfricaNode, America),
+
+    EarthNode = zipper:root(AmericaInserted),
+    Earth = map_tree_zipper(EarthNode),
+    Continents = zipper:children(Earth),
+    3 = length(Continents),
+
+    Africa = zipper:down(Earth),
+    #{attrs := #{name := "Africa"}} = zipper:node(Africa).
+
+-spec zipper_insert_right(config()) -> ok.
+zipper_insert_right(_Config) ->
+    Zipper = map_tree_zipper(root()),
+    ok = try
+             zipper:insert_right(#{}, Zipper)
+         catch
+             _:insert_at_top -> ok
+         end,
+
+    AsiaNode = #{type => continent,
+                 attrs => #{name => "Asia"},
+                 children => [#{type => country,
+                                attrs => #{name => "China"},
+                                children => []},
+                              #{type => country,
+                                attrs => #{name => "India"},
+                                children => []},
+                              #{type => country,
+                                attrs => #{name => "Israel"},
+                                children => []}
+                             ]
+                },
+    America = zipper:traverse([down], Zipper),
+    AmericaInserted = zipper:insert_right(AsiaNode, America),
+
+    EarthNode = zipper:root(AmericaInserted),
+    Earth = map_tree_zipper(EarthNode),
+    Continents = zipper:children(Earth),
+    3 = length(Continents),
+
+    Asia = zipper:traverse([down, right], Earth),
+    #{attrs := #{name := "Asia"}} = zipper:node(Asia).
+
+-spec zipper_replace(config()) -> ok.
+zipper_replace(_Config) ->
+    Zipper = map_tree_zipper(root()),
+    MarsNode = #{type => planet,
+                 attrs => #{name => "Mars"},
+                 children => []},
+
+    ReplacedEarth = zipper:replace(MarsNode, Zipper),
+    MarsNode = zipper:root(ReplacedEarth),
+
+    AsiaNode = #{type => continent,
+                 attrs => #{name => "Asia"},
+                 children => [#{type => country,
+                                attrs => #{name => "China"},
+                                children => []},
+                              #{type => country,
+                                attrs => #{name => "India"},
+                                children => []},
+                              #{type => country,
+                                attrs => #{name => "Israel"},
+                                children => []}
+                             ]
+                },
+    Europe = zipper:traverse([down, right], Zipper),
+    ReplacedEurope = zipper:replace(AsiaNode, Europe),
+    NewEarthNode = zipper:root(ReplacedEurope),
+    NewEarth = map_tree_zipper(NewEarthNode),
+    Asia = zipper:traverse([down, right], NewEarth),
+    AsiaNode = zipper:node(Asia).
+
+-spec zipper_edit(config()) -> ok.
+zipper_edit(_Config) ->
+    Zipper = map_tree_zipper(root()),
+    EditNameFun = fun (Node = #{attrs := Attrs}, Name) ->
+                          Node#{attrs => Attrs#{name => Name}}
+                  end,
+
+    RenamedEarth = zipper:edit(EditNameFun, ["Big Blue Ball"], Zipper),
+    #{attrs := #{name := "Big Blue Ball"}} = zipper:root(RenamedEarth),
+
+    Europe = zipper:traverse([down, right], Zipper),
+    RenamedEurope = zipper:edit(EditNameFun, ["The Old Continent"], Europe),
+    NewEarthNode = zipper:root(RenamedEurope),
+    NewEarth = map_tree_zipper(NewEarthNode),
+    OldContinent = zipper:traverse([down, right], NewEarth),
+    #{attrs := #{name := "The Old Continent"}} = zipper:node(OldContinent).
+
+-spec zipper_insert_child(config()) -> ok.
+zipper_insert_child(_Config) ->
+    Zipper = map_tree_zipper(root()),
+
+    AsiaNode = #{type => continent,
+                 attrs => #{name => "Asia"},
+                 children => [#{type => country,
+                                attrs => #{name => "China"},
+                                children => []},
+                              #{type => country,
+                                attrs => #{name => "India"},
+                                children => []},
+                              #{type => country,
+                                attrs => #{name => "Israel"},
+                                children => []}
+                             ]
+                },
+
+    AsiaInserted = zipper:insert_child(AsiaNode, Zipper),
+    EarthWithAsiaNode = zipper:root(AsiaInserted),
+    EarthWithAsia = map_tree_zipper(EarthWithAsiaNode),
+    Asia = zipper:down(EarthWithAsia),
+    #{attrs := #{name := "Asia"}} = zipper:node(Asia),
+
+    UruguayNode = #{type => country,
+                    attrs => #{name => "Uruguay"},
+                    children => []},
+
+    America = zipper:traverse([down, right], EarthWithAsia),
+    #{attrs := #{name := "America"}} = zipper:node(America),
+    UruguayInserted = zipper:insert_child(UruguayNode, America),
+    EarthWithUruguayNode = zipper:root(UruguayInserted),
+    EarthWithUruguay = map_tree_zipper(EarthWithUruguayNode),
+    Uruguay = zipper:traverse([down, right, down], EarthWithUruguay),
+    #{attrs := #{name := "Uruguay"}} = zipper:node(Uruguay).
+
+-spec zipper_append_child(config()) -> ok.
+zipper_append_child(_Config) ->
+    Zipper = map_tree_zipper(root()),
+
+    AsiaNode = #{type => continent,
+                 attrs => #{name => "Asia"},
+                 children => [#{type => country,
+                                attrs => #{name => "China"},
+                                children => []},
+                              #{type => country,
+                                attrs => #{name => "India"},
+                                children => []},
+                              #{type => country,
+                                attrs => #{name => "Israel"},
+                                children => []}
+                             ]
+                },
+
+    AsiaInserted = zipper:append_child(AsiaNode, Zipper),
+    EarthWithAsiaNode = zipper:root(AsiaInserted),
+    EarthWithAsia = map_tree_zipper(EarthWithAsiaNode),
+    Asia = zipper:traverse([down, rightmost], EarthWithAsia),
+    #{attrs := #{name := "Asia"}} = zipper:node(Asia),
+
+    UruguayNode = #{type => country,
+                    attrs => #{name => "Uruguay"},
+                    children => []},
+
+    America = zipper:traverse([down], EarthWithAsia),
+    #{attrs := #{name := "America"}} = zipper:node(America),
+    UruguayInserted = zipper:append_child(UruguayNode, America),
+    EarthWithUruguayNode = zipper:root(UruguayInserted),
+    EarthWithUruguay = map_tree_zipper(EarthWithUruguayNode),
+    Uruguay = zipper:traverse([down, down, rightmost], EarthWithUruguay),
+    #{attrs := #{name := "Uruguay"}} = zipper:node(Uruguay).
+
+        -spec zipper_remove(config()) -> ok.
+zipper_remove(_Config) ->
+    Zipper = map_tree_zipper(root()),
+    ok = try
+             zipper:remove(Zipper)
+         catch
+             _:remove_at_top -> ok
+         end,
+
+    America = zipper:down(Zipper),
+    AmericaRemoved = zipper:remove(America),
+    #{attrs := #{name := "Earth"}} = zipper:node(AmericaRemoved),
+    EarthNoAmericaNode = zipper:root(AmericaRemoved),
+    EarthNoAmerica = map_tree_zipper(EarthNoAmericaNode),
+    1 = length(zipper:children(EarthNoAmerica)),
+
+    Europe = zipper:traverse([down, right], Zipper),
+    EuropeRemoved = zipper:remove(Europe),
+    #{attrs := #{name := "Brasil"}} = zipper:node(EuropeRemoved),
+    EarthNoEuropeNode = zipper:root(EuropeRemoved),
+    EarthNoEurope = map_tree_zipper(EarthNoEuropeNode),
+    1 = length(zipper:children(EarthNoEurope)).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Helper functions
