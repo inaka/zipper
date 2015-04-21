@@ -1,8 +1,8 @@
 # Change Log
 
-## [Unreleased](https://github.com/inaka/zipper/tree/HEAD)
+## [0.1.1](https://github.com/inaka/zipper/tree/0.1.1) (2015-04-21)
 
-[Full Changelog](https://github.com/inaka/zipper/compare/0.1.0...HEAD)
+[Full Changelog](https://github.com/inaka/zipper/compare/0.1.0...0.1.1)
 
 **Implemented enhancements:**
 
@@ -15,6 +15,8 @@
 - Implement zipper [\#4](https://github.com/inaka/zipper/issues/4)
 
 **Merged pull requests:**
+
+- \[\#6\] Version bump. Added Change Log [\#12](https://github.com/inaka/zipper/pull/12) ([jfacorro](https://github.com/jfacorro))
 
 - \[Closes \#6\] Implement node modification [\#11](https://github.com/inaka/zipper/pull/11) ([jfacorro](https://github.com/jfacorro))
 
