@@ -20,9 +20,15 @@
          insert_right/2,
          replace/2,
          edit/3,
+         edit_all/3,
          insert_child/2,
          append_child/2,
          remove/1,
+         %% Iteration
+         map/2,
+         filter/2,
+         fold/3,
+         size/1,
          %% Info
          node/1,
          children/1,
@@ -210,6 +216,17 @@ edit(Fun, Args, Zipper = #{node := Node, info := Info}) ->
     Zipper#{node => NewNode,
             info => Info#{is_modified => true}}.
 
+-spec edit_all(fun(), list(), zipper:zipper()) -> term().
+edit_all(Fun, Args, Zipper) ->
+    NewZipper = zipper:edit(Fun, Args, Zipper),
+    NextZipper = zipper:next(NewZipper),
+    case zipper:is_end(NextZipper) of
+        true ->
+            zipper:root(NewZipper);
+        false ->
+            edit_all(Fun, Args, NextZipper)
+    end.
+
 -spec insert_child(term(), zipper()) -> zipper().
 insert_child(Child, Zipper = #{spec := #{make_node := MakeNode}}) ->
     Node = zipper:node(Zipper),
@@ -249,6 +266,42 @@ prev_removed(Zipper) ->
         undefined -> Zipper;
         Child -> prev_removed(rightmost(Child))
     end.
+
+%% Iteration
+
+-spec map(ktn_code:tree_node(), fun()) -> [ktn_code:tree_node()].
+map(Fun, Zipper) ->
+    ApplyAddFun = fun(X, Acc) -> [Fun(X) | Acc] end,
+    Result = fold(ApplyAddFun, [], Zipper),
+    lists:reverse(Result).
+
+-spec fold(fun(), term(), zipper:zipper()) -> term().
+fold(Fun, Acc, Zipper) ->
+    case zipper:is_end(Zipper) of
+        true ->
+            Acc;
+        false ->
+            Node = zipper:node(Zipper),
+            NewAcc = Fun(Node, Acc),
+            fold(Fun, NewAcc, zipper:next(Zipper))
+    end.
+
+-spec filter(fun(), zipper:zipper()) -> list().
+filter(Pred, Zipper) ->
+    FilterFun = fun(X, Acc) ->
+                        case Pred(X) of
+                            true -> [X | Acc];
+                            false -> Acc
+                        end
+                end,
+    fold(FilterFun, [], Zipper).
+
+-spec size(zipper:zipper()) -> non_neg_integer().
+size(Zipper) ->
+    IncFun = fun(_, Acc) -> Acc + 1 end,
+    fold(IncFun, 0, Zipper).
+
+%% Info
 
 -spec node(zipper()) -> zipper().
 node(#{node := Node}) ->
