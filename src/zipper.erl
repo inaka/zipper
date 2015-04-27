@@ -269,7 +269,7 @@ prev_removed(Zipper) ->
 
 %% Iteration
 
--spec map(ktn_code:tree_node(), fun()) -> [ktn_code:tree_node()].
+-spec map(fun(), zipper:zipper()) -> [term()].
 map(Fun, Zipper) ->
     ApplyAddFun = fun(X, Acc) -> [Fun(X) | Acc] end,
     Result = fold(ApplyAddFun, [], Zipper),
