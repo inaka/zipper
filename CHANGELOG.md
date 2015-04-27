@@ -1,5 +1,23 @@
 # Change Log
 
+## [0.1.2](https://github.com/inaka/zipper/tree/0.1.2) (2015-04-27)
+
+[Full Changelog](https://github.com/inaka/zipper/compare/0.1.1...0.1.2)
+
+**Implemented enhancements:**
+
+- Add common functions to iterate over zippers   [\#15](https://github.com/inaka/zipper/issues/15)
+
+**Merged pull requests:**
+
+- \[\#17\] Bumped version 0.1.2 [\#18](https://github.com/inaka/zipper/pull/18) ([jfacorro](https://github.com/jfacorro))
+
+- \[Closes \#15\] Added functions and tests [\#16](https://github.com/inaka/zipper/pull/16) ([jfacorro](https://github.com/jfacorro))
+
+- Update LICENSE [\#14](https://github.com/inaka/zipper/pull/14) ([andresinaka](https://github.com/andresinaka))
+
+- \[\#6\] Update change log [\#13](https://github.com/inaka/zipper/pull/13) ([jfacorro](https://github.com/jfacorro))
+
 ## [0.1.1](https://github.com/inaka/zipper/tree/0.1.1) (2015-04-21)
 
 [Full Changelog](https://github.com/inaka/zipper/compare/0.1.0...0.1.1)
