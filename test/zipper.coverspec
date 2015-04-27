@@ -2,6 +2,7 @@
 {
  incl_mods,
  [
-  zipper
+  zipper,
+  zipper_default
  ]
 }.
