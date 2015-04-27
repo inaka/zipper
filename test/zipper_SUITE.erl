@@ -23,12 +23,12 @@
          zipper_insert_right/1,
          zipper_replace/1,
          zipper_edit/1,
-         zipper_edit_all/1,
          zipper_insert_child/1,
          zipper_append_child/1,
          zipper_remove/1,
          %% Iteration
          zipper_map/1,
+         zipper_fmap/1,
          zipper_filter/1,
          zipper_size/1
         ]).
@@ -415,14 +415,14 @@ zipper_edit(_Config) ->
     OldContinent = zipper:traverse([down, right], NewEarth),
     #{attrs := #{name := "The Old Continent"}} = zipper:node(OldContinent).
 
--spec zipper_edit_all(config()) -> ok.
-zipper_edit_all(_Config) ->
+-spec zipper_fmap(config()) -> ok.
+zipper_fmap(_Config) ->
     Zipper = zipper_default:map_tree(root(), children),
     EditNameFun = fun (Node = #{attrs := Attrs}, Name) ->
                           Node#{attrs => Attrs#{name => Name}}
                   end,
 
-    RenamedEarth = zipper:edit_all(EditNameFun, ["X"], Zipper),
+    RenamedEarth = zipper:fmap(EditNameFun, ["X"], Zipper),
     #{attrs := #{name := "X"},
       children := [
                    #{attrs := #{name := "X"},

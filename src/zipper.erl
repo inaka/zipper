@@ -20,12 +20,12 @@
          insert_right/2,
          replace/2,
          edit/3,
-         edit_all/3,
          insert_child/2,
          append_child/2,
          remove/1,
          %% Iteration
          map/2,
+         fmap/3,
          filter/2,
          fold/3,
          size/1,
@@ -216,17 +216,6 @@ edit(Fun, Args, Zipper = #{node := Node, info := Info}) ->
     Zipper#{node => NewNode,
             info => Info#{is_modified => true}}.
 
--spec edit_all(fun(), list(), zipper:zipper()) -> term().
-edit_all(Fun, Args, Zipper) ->
-    NewZipper = zipper:edit(Fun, Args, Zipper),
-    NextZipper = zipper:next(NewZipper),
-    case zipper:is_end(NextZipper) of
-        true ->
-            zipper:root(NewZipper);
-        false ->
-            edit_all(Fun, Args, NextZipper)
-    end.
-
 -spec insert_child(term(), zipper()) -> zipper().
 insert_child(Child, Zipper = #{spec := #{make_node := MakeNode}}) ->
     Node = zipper:node(Zipper),
@@ -274,6 +263,22 @@ map(Fun, Zipper) ->
     ApplyAddFun = fun(X, Acc) -> [Fun(X) | Acc] end,
     Result = fold(ApplyAddFun, [], Zipper),
     lists:reverse(Result).
+
+%% @doc Returns the root of the tree, where the value of each node
+%%      (after the current location of Zipper) is replaced with the
+%%      result from appling Fun to the node as the first argument
+%%      and Args as additional arguments.
+%% @end
+-spec fmap(fun(), list(), zipper:zipper()) -> term().
+fmap(Fun, Args, Zipper) ->
+    NewZipper = zipper:edit(Fun, Args, Zipper),
+    NextZipper = zipper:next(NewZipper),
+    case zipper:is_end(NextZipper) of
+        true ->
+            zipper:root(NewZipper);
+        false ->
+            fmap(Fun, Args, NextZipper)
+    end.
 
 -spec fold(fun(), term(), zipper:zipper()) -> term().
 fold(Fun, Acc, Zipper) ->
