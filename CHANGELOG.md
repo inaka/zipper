@@ -1,7 +1,22 @@
 # Change Log
 
-## [0.1.2](https://github.com/inaka/zipper/tree/0.1.2) (2015-04-27)
+## [0.1.3](https://github.com/inaka/zipper/tree/0.1.3) (2015-12-23)
 
+[Full Changelog](https://github.com/inaka/zipper/compare/0.1.2...0.1.3)
+
+**Closed issues:**
+
+- Remove shell target from makefile [\#23](https://github.com/inaka/zipper/issues/23)
+- hex package [\#22](https://github.com/inaka/zipper/issues/22)
+- Version bump 0.1.2 [\#17](https://github.com/inaka/zipper/issues/17)
+
+**Merged pull requests:**
+
+- \[Closes \#23\] Remove shell target [\#24](https://github.com/inaka/zipper/pull/24) ([jfacorro](https://github.com/jfacorro))
+- Updated license [\#20](https://github.com/inaka/zipper/pull/20) ([spike886](https://github.com/spike886))
+- \[\#17\] Updated changelog [\#19](https://github.com/inaka/zipper/pull/19) ([jfacorro](https://github.com/jfacorro))
+
+## [0.1.2](https://github.com/inaka/zipper/tree/0.1.2) (2015-04-27)
 [Full Changelog](https://github.com/inaka/zipper/compare/0.1.1...0.1.2)
 
 **Implemented enhancements:**
@@ -11,15 +26,11 @@
 **Merged pull requests:**
 
 - \[\#17\] Bumped version 0.1.2 [\#18](https://github.com/inaka/zipper/pull/18) ([jfacorro](https://github.com/jfacorro))
-
 - \[Closes \#15\] Added functions and tests [\#16](https://github.com/inaka/zipper/pull/16) ([jfacorro](https://github.com/jfacorro))
-
 - Update LICENSE [\#14](https://github.com/inaka/zipper/pull/14) ([andresinaka](https://github.com/andresinaka))
-
 - \[\#6\] Update change log [\#13](https://github.com/inaka/zipper/pull/13) ([jfacorro](https://github.com/jfacorro))
 
 ## [0.1.1](https://github.com/inaka/zipper/tree/0.1.1) (2015-04-21)
-
 [Full Changelog](https://github.com/inaka/zipper/compare/0.1.0...0.1.1)
 
 **Implemented enhancements:**
@@ -29,31 +40,24 @@
 **Closed issues:**
 
 - Implement node modification [\#6](https://github.com/inaka/zipper/issues/6)
-
 - Implement zipper [\#4](https://github.com/inaka/zipper/issues/4)
 
 **Merged pull requests:**
 
 - \[\#6\] Version bump. Added Change Log [\#12](https://github.com/inaka/zipper/pull/12) ([jfacorro](https://github.com/jfacorro))
-
 - \[Closes \#6\] Implement node modification [\#11](https://github.com/inaka/zipper/pull/11) ([jfacorro](https://github.com/jfacorro))
-
 - \[Closes \#8\] Functions for default zippers [\#10](https://github.com/inaka/zipper/pull/10) ([jfacorro](https://github.com/jfacorro))
 
 ## [0.1.0](https://github.com/inaka/zipper/tree/0.1.0) (2014-09-08)
-
 **Closed issues:**
 
 - Create tests [\#3](https://github.com/inaka/zipper/issues/3)
-
 - Project structure. [\#1](https://github.com/inaka/zipper/issues/1)
 
 **Merged pull requests:**
 
 - \[\#4\] Implement zipper [\#7](https://github.com/inaka/zipper/pull/7) ([jfacorro](https://github.com/jfacorro))
-
 - \[\#3\] Tests [\#5](https://github.com/inaka/zipper/pull/5) ([jfacorro](https://github.com/jfacorro))
-
 - \[\#1\] Project structure [\#2](https://github.com/inaka/zipper/pull/2) ([jfacorro](https://github.com/jfacorro))
 
 
