@@ -1,6 +1,6 @@
 PROJECT = zipper
 
-DEPS = sync
+SHELL_DEPS = sync
 
 dep_sync = git https://github.com/rustyio/sync.git master
 
