@@ -1,17 +1,18 @@
 # Change Log
 
 ## [0.1.3](https://github.com/inaka/zipper/tree/0.1.3) (2015-12-23)
-
 [Full Changelog](https://github.com/inaka/zipper/compare/0.1.2...0.1.3)
 
 **Closed issues:**
 
+- Bump version to 0.1.3 [\#25](https://github.com/inaka/zipper/issues/25)
 - Remove shell target from makefile [\#23](https://github.com/inaka/zipper/issues/23)
 - hex package [\#22](https://github.com/inaka/zipper/issues/22)
 - Version bump 0.1.2 [\#17](https://github.com/inaka/zipper/issues/17)
 
 **Merged pull requests:**
 
+- \[Closes \#25\] Bump version [\#26](https://github.com/inaka/zipper/pull/26) ([jfacorro](https://github.com/jfacorro))
 - \[Closes \#23\] Remove shell target [\#24](https://github.com/inaka/zipper/pull/24) ([jfacorro](https://github.com/jfacorro))
 - Updated license [\#20](https://github.com/inaka/zipper/pull/20) ([spike886](https://github.com/spike886))
 - \[\#17\] Updated changelog [\#19](https://github.com/inaka/zipper/pull/19) ([jfacorro](https://github.com/jfacorro))
