@@ -1,9 +1,5 @@
 PROJECT = zipper
 
-DEPS = sync
-
-dep_sync = git https://github.com/rustyio/sync.git master
-
 include erlang.mk
 
 ERLC_OPTS += +warn_unused_vars +warn_export_all +warn_shadow_vars +warn_unused_import +warn_unused_function
