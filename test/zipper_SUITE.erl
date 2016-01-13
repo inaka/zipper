@@ -57,13 +57,14 @@ all() ->
 %% Test cases
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
--spec zipper_node(config()) -> ok.
+-spec zipper_node(config()) -> {comment, string()}.
 zipper_node(_Config) ->
     Root = root(),
     Zipper = zipper_default:map_tree(Root, children),
-    Root = zipper:node(Zipper).
+    Root = zipper:node(Zipper),
+    {comment, ""}.
 
--spec zipper_children(config()) -> ok.
+-spec zipper_children(config()) -> {comment, string()}.
 zipper_children(_Config) ->
     Root = root(),
     Zipper = zipper_default:map_tree(Root, children),
@@ -75,16 +76,18 @@ zipper_children(_Config) ->
              zipper:children(ArgZipper)
          catch
              throw:children_on_leaf -> ok
-         end.
+         end,
+    {comment, ""}.
 
--spec zipper_root(config()) -> ok.
+-spec zipper_root(config()) -> {comment, string()}.
 zipper_root(_Config) ->
     Root = root(),
     Zipper = zipper_default:map_tree(Root, children),
     Zipper1 = zipper:traverse([next, next, next, next, next, next], Zipper),
-    Root = zipper:root(Zipper1).
+    Root = zipper:root(Zipper1),
+    {comment, ""}.
 
--spec zipper_down(config()) -> ok.
+-spec zipper_down(config()) -> {comment, string()}.
 zipper_down(_Config) ->
     Zipper = zipper_default:map_tree(root(), children),
     Zipper1 = zipper:down(Zipper),
@@ -107,9 +110,10 @@ zipper_down(_Config) ->
                    attrs => #{name => "Argentina"},
                    children => []},
 
-    undefined = zipper:down(Zipper2).
+    undefined = zipper:down(Zipper2),
+    {comment, ""}.
 
--spec zipper_up(config()) -> ok.
+-spec zipper_up(config()) -> {comment, string()}.
 zipper_up(_Config) ->
     Zipper = zipper_default:map_tree(root(), children),
     undefined = zipper:up(Zipper),
@@ -137,9 +141,10 @@ zipper_up(_Config) ->
 
     Zipper3 = zipper:up(Zipper2),
     Earth = zipper:node(Zipper3),
-    Earth = root().
+    Earth = root(),
+    {comment, ""}.
 
--spec zipper_right(config()) -> ok.
+-spec zipper_right(config()) -> {comment, string()}.
 zipper_right(_Config) ->
     Zipper = zipper_default:map_tree(root(), children),
 
@@ -153,9 +158,10 @@ zipper_right(_Config) ->
     Brasil = zipper:node(Zipper2),
     Brasil = #{type => country,
                attrs => #{name => "Brasil"},
-               children => []}.
+               children => []},
+    {comment, ""}.
 
--spec zipper_left(config()) -> ok.
+-spec zipper_left(config()) -> {comment, string()}.
 zipper_left(_Config) ->
     Zipper = zipper_default:map_tree(root(), children),
 
@@ -171,9 +177,10 @@ zipper_left(_Config) ->
                   attrs => #{name => "Argentina"},
                   children => []},
 
-    undefined = zipper:left(Zipper2).
+    undefined = zipper:left(Zipper2),
+    {comment, ""}.
 
--spec zipper_next(config()) -> ok.
+-spec zipper_next(config()) -> {comment, string()}.
 zipper_next(_Config) ->
     Zipper = zipper_default:map_tree(root(), children),
     Zipper1 = zipper:next(Zipper),
@@ -205,7 +212,6 @@ zipper_next(_Config) ->
                            ]
               },
 
-
     Zipper5 = zipper:next(Zipper4),
     Sweden = zipper:node(Zipper5),
     Sweden =  #{type => country,
@@ -221,9 +227,10 @@ zipper_next(_Config) ->
     ZipperEnd = zipper:next(Zipper6),
     true = zipper:is_end(ZipperEnd),
     ZipperEnd = zipper:next(ZipperEnd),
-    true = zipper:is_end(ZipperEnd).
+    true = zipper:is_end(ZipperEnd),
+    {comment, ""}.
 
--spec zipper_prev(config()) -> ok.
+-spec zipper_prev(config()) -> {comment, string()}.
 zipper_prev(_Config) ->
     Zipper = zipper_default:map_tree(root(), children),
     undefined = zipper:prev(Zipper),
@@ -284,25 +291,28 @@ zipper_prev(_Config) ->
 
     Zipper7 = zipper:prev(Zipper6),
     Earth = zipper:node(Zipper7),
-    Earth = root().
+    Earth = root(),
+    {comment, ""}.
 
--spec zipper_leftmost(config()) -> ok.
+-spec zipper_leftmost(config()) -> {comment, string()}.
 zipper_leftmost(_Config) ->
     Zipper = zipper_default:map_tree(root(), children),
     Zipper = zipper:leftmost(Zipper),
 
     Argentina = zipper:traverse([down, down], Zipper),
-    Argentina = zipper:traverse([down, down, right, leftmost], Zipper).
+    Argentina = zipper:traverse([down, down, right, leftmost], Zipper),
+    {comment, ""}.
 
--spec zipper_rightmost(config()) -> ok.
+-spec zipper_rightmost(config()) -> {comment, string()}.
 zipper_rightmost(_Config) ->
     Zipper = zipper_default:map_tree(root(), children),
     Zipper = zipper:rightmost(Zipper),
 
     Europe = zipper:traverse([down, right], Zipper),
-    Europe = zipper:traverse([down, rightmost], Zipper).
+    Europe = zipper:traverse([down, rightmost], Zipper),
+    {comment, ""}.
 
--spec zipper_insert_left(config()) -> ok.
+-spec zipper_insert_left(config()) -> {comment, string()}.
 zipper_insert_left(_Config) ->
     Zipper = zipper_default:map_tree(root(), children),
     ok = try
@@ -333,9 +343,10 @@ zipper_insert_left(_Config) ->
     3 = length(Continents),
 
     Africa = zipper:down(Earth),
-    #{attrs := #{name := "Africa"}} = zipper:node(Africa).
+    #{attrs := #{name := "Africa"}} = zipper:node(Africa),
+    {comment, ""}.
 
--spec zipper_insert_right(config()) -> ok.
+-spec zipper_insert_right(config()) -> {comment, string()}.
 zipper_insert_right(_Config) ->
     Zipper = zipper_default:map_tree(root(), children),
     ok = try
@@ -366,9 +377,10 @@ zipper_insert_right(_Config) ->
     3 = length(Continents),
 
     Asia = zipper:traverse([down, right], Earth),
-    #{attrs := #{name := "Asia"}} = zipper:node(Asia).
+    #{attrs := #{name := "Asia"}} = zipper:node(Asia),
+    {comment, ""}.
 
--spec zipper_replace(config()) -> ok.
+-spec zipper_replace(config()) -> {comment, string()}.
 zipper_replace(_Config) ->
     Zipper = zipper_default:map_tree(root(), children),
     MarsNode = #{type => planet,
@@ -396,9 +408,10 @@ zipper_replace(_Config) ->
     NewEarthNode = zipper:root(ReplacedEurope),
     NewEarth = zipper_default:map_tree(NewEarthNode, children),
     Asia = zipper:traverse([down, right], NewEarth),
-    AsiaNode = zipper:node(Asia).
+    AsiaNode = zipper:node(Asia),
+    {comment, ""}.
 
--spec zipper_edit(config()) -> ok.
+-spec zipper_edit(config()) -> {comment, string()}.
 zipper_edit(_Config) ->
     Zipper = zipper_default:map_tree(root(), children),
     EditNameFun = fun (Node = #{attrs := Attrs}, Name) ->
@@ -413,9 +426,10 @@ zipper_edit(_Config) ->
     NewEarthNode = zipper:root(RenamedEurope),
     NewEarth = zipper_default:map_tree(NewEarthNode, children),
     OldContinent = zipper:traverse([down, right], NewEarth),
-    #{attrs := #{name := "The Old Continent"}} = zipper:node(OldContinent).
+    #{attrs := #{name := "The Old Continent"}} = zipper:node(OldContinent),
+    {comment, ""}.
 
--spec zipper_fmap(config()) -> ok.
+-spec zipper_fmap(config()) -> {comment, string()}.
 zipper_fmap(_Config) ->
     Zipper = zipper_default:map_tree(root(), children),
     EditNameFun = fun (Node = #{attrs := Attrs}, Name) ->
@@ -442,10 +456,11 @@ zipper_fmap(_Config) ->
                                  ]
                     }
                   ]
-     } = RenamedEarth.
+     } = RenamedEarth,
+    {comment, ""}.
 
 
--spec zipper_insert_child(config()) -> ok.
+-spec zipper_insert_child(config()) -> {comment, string()}.
 zipper_insert_child(_Config) ->
     Zipper = zipper_default:map_tree(root(), children),
 
@@ -479,9 +494,10 @@ zipper_insert_child(_Config) ->
     EarthWithUruguayNode = zipper:root(UruguayInserted),
     EarthWithUruguay = zipper_default:map_tree(EarthWithUruguayNode, children),
     Uruguay = zipper:traverse([down, right, down], EarthWithUruguay),
-    #{attrs := #{name := "Uruguay"}} = zipper:node(Uruguay).
+    #{attrs := #{name := "Uruguay"}} = zipper:node(Uruguay),
+    {comment, ""}.
 
--spec zipper_append_child(config()) -> ok.
+-spec zipper_append_child(config()) -> {comment, string()}.
 zipper_append_child(_Config) ->
     Zipper = zipper_default:map_tree(root(), children),
 
@@ -515,9 +531,10 @@ zipper_append_child(_Config) ->
     EarthWithUruguayNode = zipper:root(UruguayInserted),
     EarthWithUruguay = zipper_default:map_tree(EarthWithUruguayNode, children),
     Uruguay = zipper:traverse([down, down, rightmost], EarthWithUruguay),
-    #{attrs := #{name := "Uruguay"}} = zipper:node(Uruguay).
+    #{attrs := #{name := "Uruguay"}} = zipper:node(Uruguay),
+    {comment, ""}.
 
--spec zipper_remove(config()) -> ok.
+-spec zipper_remove(config()) -> {comment, string()}.
 zipper_remove(_Config) ->
     Zipper = zipper_default:map_tree(root(), children),
     ok = try
@@ -538,30 +555,34 @@ zipper_remove(_Config) ->
     #{attrs := #{name := "Brasil"}} = zipper:node(EuropeRemoved),
     EarthNoEuropeNode = zipper:root(EuropeRemoved),
     EarthNoEurope = zipper_default:map_tree(EarthNoEuropeNode, children),
-    1 = length(zipper:children(EarthNoEurope)).
+    1 = length(zipper:children(EarthNoEurope)),
+    {comment, ""}.
 
--spec zipper_map(config()) -> ok.
+-spec zipper_map(config()) -> {comment, string()}.
 zipper_map(_Config) ->
     Zipper = zipper_default:map_tree(root(), children),
 
     GetNameFun = fun(#{attrs := #{name := Name}}) -> Name end,
     ["Earth",
      "America", "Argentina", "Brasil",
-     "Europe", "Sweden", "England"] = zipper:map(GetNameFun, Zipper).
+     "Europe", "Sweden", "England"] = zipper:map(GetNameFun, Zipper),
+    {comment, ""}.
 
--spec zipper_filter(config()) -> ok.
+-spec zipper_filter(config()) -> {comment, string()}.
 zipper_filter(_Config) ->
     Zipper = zipper_default:map_tree(root(), children),
 
     FilterFun = fun(#{attrs := #{name := Name}}) -> Name == "Brasil" end,
     [#{type := country,
        attrs := #{name := "Brasil"},
-       children := []}] = zipper:filter(FilterFun, Zipper).
+       children := []}] = zipper:filter(FilterFun, Zipper),
+    {comment, ""}.
 
--spec zipper_size(config()) -> ok.
+-spec zipper_size(config()) -> {comment, string()}.
 zipper_size(_Config) ->
     Zipper = zipper_default:map_tree(root(), children),
-    7 = zipper:size(Zipper).
+    7 = zipper:size(Zipper),
+    {comment, ""}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Helper functions
