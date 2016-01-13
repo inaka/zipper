@@ -1,5 +1,14 @@
 # Change Log
 
+## [0.1.15](https://github.com/inaka/zipper/tree/0.1.15) (2016-01-13)
+[Full Changelog](https://github.com/inaka/zipper/compare/0.1.3...0.1.15)
+
+**Merged pull requests:**
+
+- \[\#hexer\] hexer\_mk version fix [\#31](https://github.com/inaka/zipper/pull/31) ([elbrujohalcon](https://github.com/elbrujohalcon))
+- Switch build tools to erlang.mk and republish to hex.pm [\#29](https://github.com/inaka/zipper/pull/29) ([elbrujohalcon](https://github.com/elbrujohalcon))
+- \[\#27\] Version bump to 0.1.4 [\#28](https://github.com/inaka/zipper/pull/28) ([davecaos](https://github.com/davecaos))
+
 ## [0.1.3](https://github.com/inaka/zipper/tree/0.1.3) (2015-12-23)
 [Full Changelog](https://github.com/inaka/zipper/compare/0.1.2...0.1.3)
 
