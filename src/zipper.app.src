@@ -2,13 +2,13 @@
   application, zipper,
   [
    {description, "Generic Zipper Implementation for Erlang"},
-   {vsn, "0.1.4"},
+   {vsn, "0.1.5"},
    {applications, [kernel, stdlib]},
    {modules, []},
    {registered, []},
    {maintainers, ["Inaka"]},
    {licenses, ["Apache 2.0"]},
    {links, [{"Github", "https://github.com/inaka/zipper"}]},
-   {build_tools, ["make", "rebar"]}
+   {build_tools, ["erlang.mk", "rebar"]}
   ]
 }.
