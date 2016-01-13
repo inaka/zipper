@@ -34,7 +34,7 @@ all() ->
 %% Test cases
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
--spec zipper_list(config()) -> ok.
+-spec zipper_list(config()) -> {comment, string()}.
 zipper_list(_Config) ->
     Root = [1, 2, 3, 4],
     Zipper = zipper_default:list(Root),
@@ -45,9 +45,10 @@ zipper_list(_Config) ->
     4 = zipper:traverse([down, right, right, right, node], Zipper),
 
     undefined = zipper:traverse([down, left], Zipper),
-    undefined = zipper:traverse([down, down], Zipper).
+    undefined = zipper:traverse([down, down], Zipper),
+    {comment, ""}.
 
--spec zipper_bin_tree(config()) -> ok.
+-spec zipper_bin_tree(config()) -> {comment, string()}.
 zipper_bin_tree(_Config) ->
     Root = {1,
             {2, 3, 4},
@@ -62,9 +63,10 @@ zipper_bin_tree(_Config) ->
     4 = zipper:traverse([down, down, right, node], Zipper),
     undefined = zipper:traverse([down, down, down], Zipper),
     {6, 7, 8} = zipper:traverse([down, right, down, node], Zipper),
-    {9, 10, 11} = zipper:traverse([down, right, down, right, node], Zipper).
+    {9, 10, 11} = zipper:traverse([down, right, down, right, node], Zipper),
+    {comment, ""}.
 
--spec zipper_map_tree(config()) -> ok.
+-spec zipper_map_tree(config()) -> {comment, string()}.
 zipper_map_tree(_Config) ->
     Root = #{type => planet,
              name => "Earth",
@@ -101,4 +103,5 @@ zipper_map_tree(_Config) ->
     #{name := "Europe"} = zipper:traverse([down, right, node], Zipper),
     #{name := "Sweden"} = zipper:traverse([down, right, down, node], Zipper),
     #{name := "England"} = zipper:traverse([down, right, down, right, node],
-                                           Zipper).
+                                           Zipper),
+    {comment, ""}.

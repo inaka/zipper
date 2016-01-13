@@ -1,3 +1,5 @@
+.erlang.mk/
+zipper.d
 .eunit
 deps
 *.o

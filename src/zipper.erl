@@ -38,9 +38,14 @@
 -type zipper() ::
         #{is_branch => fun(),
           make_node => fun(),
-          children => fun()}.
+          children => fun(),
+          node => term(),
+          info => map()
+         }.
+-export_type([zipper/0]).
 
--type operation() :: next | prev | up | down | left | right | root.
+-type operation() ::
+    next | prev | up | down | left | right | root | node | rightmost | leftmost.
 
 -spec new(fun(), fun(), fun(), term()) -> zipper().
 new(IsBranch, Children, MakeNode, Root) ->
@@ -92,7 +97,7 @@ down(Zipper = #{node := Node,
             undefined
     end.
 
--spec left(zipper()) -> zipper().
+-spec left(zipper()) -> zipper() | undefined.
 left(#{info := #{lefts := []}}) ->
     undefined;
 left(Zipper = #{info := Info = #{lefts := [NewNode | Lefts],
@@ -115,7 +120,7 @@ leftmost(Zipper = #{info := Info = #{lefts := Lefts,
                           rights => NewRights},
             node => NewNode}.
 
--spec right(zipper()) -> zipper().
+-spec right(zipper()) -> undefined | zipper().
 right(#{info := #{rights := []}}) ->
     undefined;
 right(Zipper = #{info := Info = #{rights := [NewNode | Rights],
@@ -162,7 +167,7 @@ is_end(#{info := 'end'}) ->
 is_end(_Zipper) ->
     false.
 
--spec prev(zipper()) -> zipper().
+-spec prev(zipper()) -> zipper() | undefined.
 prev(Zipper = #{info := #{lefts := []}}) ->
     up(Zipper);
 prev(Zipper) ->
@@ -183,7 +188,7 @@ root(Zipper) ->
         Parent -> root(Parent)
     end.
 
--spec traverse([operation()], zipper()) -> zipper().
+-spec traverse([operation()], zipper()) -> zipper() | term().
 traverse([], Zipper) ->
     Zipper;
 traverse([Op | Rest], Zipper) ->
@@ -308,11 +313,11 @@ size(Zipper) ->
 
 %% Info
 
--spec node(zipper()) -> zipper().
+-spec node(zipper()) -> term().
 node(#{node := Node}) ->
     Node.
 
--spec children(zipper()) -> zipper().
+-spec children(zipper()) -> [zipper()].
 children(Zipper = #{spec := #{children := Children}, node := Node}) ->
     case is_branch(Zipper) of
         true -> Children(Node);
