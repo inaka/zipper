@@ -5,7 +5,7 @@ TEST_DEPS = katana mixer
 SHELL_DEPS = sync
 
 # Prevents erlang.mk from downloading katana's zipper dependency
-IGNORE_DEPS = zipper
+IGNORE_DEPS += zipper
 
 dep_elvis_core = git https://github.com/inaka/elvis_core.git 0.2.6-alpha2
 dep_katana = hex 0.2.19
