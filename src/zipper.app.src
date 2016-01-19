@@ -2,7 +2,7 @@
   application, zipper,
   [
    {description, "Generic Zipper Implementation for Erlang"},
-   {vsn, "0.1.5"},
+   {vsn, "0.1.6"},
    {applications, [kernel, stdlib]},
    {modules, []},
    {registered, []},
