@@ -1,15 +1,11 @@
 PROJECT = zipper
 
 BUILD_DEPS = inaka_mk hexer_mk
-TEST_DEPS = katana mixer
+TEST_DEPS = katana_test mixer
 SHELL_DEPS = sync
 
-# Prevents erlang.mk from downloading katana's zipper dependency
-IGNORE_DEPS += zipper
-
-dep_elvis_core = git https://github.com/inaka/elvis_core.git 0.2.6-alpha2
-dep_katana = hex 0.2.19
-dep_mixer = git https://github.com/inaka/mixer.git 0.1.4
+dep_katana_test = git https://github.com/inaka/katana-test.git 0.0.1
+dep_mixer = git https://github.com/inaka/mixer.git 0.1.5
 dep_inaka_mk = git https://github.com/inaka/inaka.mk.git 1.0.0
 dep_hexer_mk = git https://github.com/inaka/hexer.mk.git 1.1.0
 
