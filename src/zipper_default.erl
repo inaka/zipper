@@ -2,6 +2,7 @@
 
 -export([list/1, bin_tree/1, map_tree/2]).
 
+%% @doc Generates a zipper for lists.
 -spec list(list()) -> zipper:zipper(list()).
 list(Root) ->
     IsBranchFun = fun is_list/1,
@@ -9,6 +10,7 @@ list(Root) ->
     MakeNodeFun = fun(_Node, Children) -> Children end,
     zipper:new(IsBranchFun, ChildrenFun, MakeNodeFun, Root).
 
+%% @doc Generates a zipper for binary trees.
 -type bin_tree_node(T) :: nil | {T, bin_tree_node(T), bin_tree_node(T)}.
 -spec bin_tree(bin_tree_node(T)) -> zipper:zipper(bin_tree_node(T)).
 bin_tree(Root) ->
@@ -20,6 +22,7 @@ bin_tree(Root) ->
     MakeNodeFun = fun(Node, [Left, Right]) -> {Node, Left, Right} end,
     zipper:new(IsBranchFun, ChildrenFun, MakeNodeFun, Root).
 
+%% @doc Generates a zipper for maps.
 -spec map_tree(M, CK) -> zipper:zipper(M) when M :: #{K => _}, CK :: K.
 map_tree(Root, ChildrenKey) ->
     IsBranchFun = fun (M) ->

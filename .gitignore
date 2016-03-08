@@ -1,3 +1,4 @@
+doc/
 .erlang.mk/
 zipper.d
 .eunit
