@@ -1,5 +1,33 @@
 # Change Log
 
+## [0.2.0](https://github.com/inaka/zipper/tree/0.2.0) (2016-03-08)
+[Full Changelog](https://github.com/inaka/zipper/compare/0.1.6...0.2.0)
+
+**Closed issues:**
+
+- Version Bump to 0.1.4 [\#27](https://github.com/inaka/zipper/issues/27)
+
+**Merged pull requests:**
+
+- Improve specs [\#30](https://github.com/inaka/zipper/pull/30) ([elbrujohalcon](https://github.com/elbrujohalcon))
+- Add documentation to functions and in the README [\#21](https://github.com/inaka/zipper/pull/21) ([jfacorro](https://github.com/jfacorro))
+
+## [0.1.6](https://github.com/inaka/zipper/tree/0.1.6) (2016-01-19)
+[Full Changelog](https://github.com/inaka/zipper/compare/0.1.5...0.1.6)
+
+**Fixed bugs:**
+
+- Modify IGNORE\_DEPS in Makefile [\#33](https://github.com/inaka/zipper/issues/33)
+
+**Closed issues:**
+
+- Version Bump to 0.1.6 [\#34](https://github.com/inaka/zipper/issues/34)
+
+**Merged pull requests:**
+
+- \[Fix \#34\] version bump [\#36](https://github.com/inaka/zipper/pull/36) ([Euen](https://github.com/Euen))
+- \[Fix \#33\] modify IGNORE\_DEPS [\#35](https://github.com/inaka/zipper/pull/35) ([Euen](https://github.com/Euen))
+
 ## [0.1.5](https://github.com/inaka/zipper/tree/0.1.5) (2016-01-13)
 [Full Changelog](https://github.com/inaka/zipper/compare/0.1.3...0.1.5)
 
