@@ -20,7 +20,7 @@ bin_tree(Root) ->
     MakeNodeFun = fun(Node, [Left, Right]) -> {Node, Left, Right} end,
     zipper:new(IsBranchFun, ChildrenFun, MakeNodeFun, Root).
 
--spec map_tree(#{K => V}, CK) -> zipper:zipper(#{K => V}) when CK :: K.
+-spec map_tree(M, CK) -> zipper:zipper(M) when M :: #{K => _}, CK :: K.
 map_tree(Root, ChildrenKey) ->
     IsBranchFun = fun (M) ->
                       is_map(M)

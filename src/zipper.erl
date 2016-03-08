@@ -196,7 +196,7 @@ prev_recur(Zipper) ->
             prev_recur(RightMost)
     end.
 
--spec root(zipper(T)) -> zipper(T).
+-spec root(zipper(T)) -> T.
 root(Zipper) ->
     case up(Zipper) of
         undefined -> node(Zipper);
