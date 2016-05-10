@@ -86,6 +86,25 @@ io:format("~p", [America]),
 %%=   children => [#{...}, #{...}]}
 ```
 
+## Tests
+
+Circular dependency in test environment ([Katana Test](https://github.com/inaka/katana-test) -> [Elvis Core](https://github.com/inaka/elvis_core) -> [Zipper](https://github.com/inaka/zipper)) is fixed by including Zipper as a dep in the test profile in `rebar.config`
+```erlang
+...
+{profiles, [
+  {test, [
+    {deps, [
+      %% The tag wil be replaced by the rebar.config.script
+      {zipper,      {git, "https://github.com/inaka/zipper.git", {tag, "irrelevant"}}},
+      ...
+    ]}
+  ]}
+]}.
+...
+```
+but then, we still replace the tag with the current branch. This is done in `rebar.config.script`.
+Therefore, it's really important to have the branch updated and pushed to github before running the tests with `rebar3 ct`.
+
 ## References
 
 - [The Zipper, GERARD HUET](https://www.st.cs.uni-saarland.de/edu/seminare/2005/advanced-fp/docs/huet-zipper.pdf)

@@ -50,6 +50,9 @@
                   , is_modified => boolean()
                   }.
 
+
+
+
 -opaque zipper(T) ::
         #{is_branch => is_branch_fun(T),
           make_node => make_node_fun(T),
