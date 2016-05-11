@@ -1,5 +1,16 @@
 # Change Log
 
+## [1.0.0](https://github.com/inaka/zipper/tree/1.0.0) (2016-05-11)
+[Full Changelog](https://github.com/inaka/zipper/compare/0.2.0...1.0.0)
+
+**Closed issues:**
+
+- Move from erlang.mk to rebar3 [\#38](https://github.com/inaka/zipper/issues/38)
+
+**Merged pull requests:**
+
+- \[fix \#38\] Euen.38.rebar3 [\#39](https://github.com/inaka/zipper/pull/39) ([Euen](https://github.com/Euen))
+
 ## [0.2.0](https://github.com/inaka/zipper/tree/0.2.0) (2016-03-08)
 [Full Changelog](https://github.com/inaka/zipper/compare/0.1.6...0.2.0)
 
@@ -9,6 +20,7 @@
 
 **Merged pull requests:**
 
+- Version Bump to 0.2.0 [\#37](https://github.com/inaka/zipper/pull/37) ([elbrujohalcon](https://github.com/elbrujohalcon))
 - Improve specs [\#30](https://github.com/inaka/zipper/pull/30) ([elbrujohalcon](https://github.com/elbrujohalcon))
 - Add documentation to functions and in the README [\#21](https://github.com/inaka/zipper/pull/21) ([jfacorro](https://github.com/jfacorro))
 
