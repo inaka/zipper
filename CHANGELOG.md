@@ -1,14 +1,30 @@
 # Change Log
 
+## [1.0.1](https://github.com/inaka/zipper/tree/1.0.1) (2016-10-19)
+[Full Changelog](https://github.com/inaka/zipper/compare/1.0.0...1.0.1)
+
+**Closed issues:**
+
+- zipper:zipper\(\) type specification is wrong [\#44](https://github.com/inaka/zipper/issues/44)
+- Remove circular dependency [\#42](https://github.com/inaka/zipper/issues/42)
+- Fulfill the open-source checklist [\#9](https://github.com/inaka/zipper/issues/9)
+
+**Merged pull requests:**
+
+- \[Fix \#44\] Fix zipper:zipper/0 type specification [\#45](https://github.com/inaka/zipper/pull/45) ([harenson](https://github.com/harenson))
+- \[\#42\] fix circular dependency [\#43](https://github.com/inaka/zipper/pull/43) ([Euen](https://github.com/Euen))
+
 ## [1.0.0](https://github.com/inaka/zipper/tree/1.0.0) (2016-05-11)
 [Full Changelog](https://github.com/inaka/zipper/compare/0.2.0...1.0.0)
 
 **Closed issues:**
 
+- Version Bump to 1.0.0 [\#40](https://github.com/inaka/zipper/issues/40)
 - Move from erlang.mk to rebar3 [\#38](https://github.com/inaka/zipper/issues/38)
 
 **Merged pull requests:**
 
+- \[Close \#40\] version bump - update changelog and zipper.app.src [\#41](https://github.com/inaka/zipper/pull/41) ([Euen](https://github.com/Euen))
 - \[fix \#38\] Euen.38.rebar3 [\#39](https://github.com/inaka/zipper/pull/39) ([Euen](https://github.com/Euen))
 
 ## [0.2.0](https://github.com/inaka/zipper/tree/0.2.0) (2016-03-08)
