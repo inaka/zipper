@@ -51,9 +51,9 @@
                   }.
 
 -opaque zipper(T) ::
-        #{is_branch => is_branch_fun(T),
-          make_node => make_node_fun(T),
-          children  => children_fun(T),
+        #{spec => #{is_branch => is_branch_fun(T),
+                    make_node => make_node_fun(T),
+                    children  => children_fun(T)},
           node      => T,
           info      => 'end' | info(T)
          }.
