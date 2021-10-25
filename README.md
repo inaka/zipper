@@ -48,7 +48,7 @@ You can build a zipper by providing three simple functions:
   `false` otherwise.
 - `ChildrenFun`: takes a node and returns a list of its children.
 - `MakeNodeFun`: takes a node and a list of children and returns a new node
-  containg the supplied list as children.
+  containing the supplied list as children.
 
 This is an example of how you would define a zipper and then use it to traverse
 the map tree structure above:
@@ -91,7 +91,7 @@ Circular dependency in test environment ([Katana Test](https://github.com/inaka/
 {profiles, [
   {test, [
     {deps, [
-      %% The tag wil be replaced by the rebar.config.script
+      %% The tag will be replaced by the rebar.config.script
       {zipper,      {git, "https://github.com/inaka/zipper.git", {tag, "irrelevant"}}},
       ...
     ]}

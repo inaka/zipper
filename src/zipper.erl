@@ -314,7 +314,7 @@ map(Fun, Zipper) ->
 
 %% @doc Returns the root of the tree, where the value of each node
 %%      (after the current location of Zipper) is replaced with the
-%%      result from appling Fun to the node as the first argument
+%%      result from applying Fun to the node as the first argument
 %%      and Args as additional arguments.
 %% @end
 -spec fmap(fun((...) -> T), [term()], zipper(T)) -> T.
