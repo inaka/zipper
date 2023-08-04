@@ -1,23 +1,9 @@
 -module(zipper_default_SUITE).
 
--export([
-         all/0
-        ]).
+-export([all/0]).
+-export([zipper_list/1, zipper_bin_tree/1, zipper_map_tree/1]).
 
--export([
-         zipper_list/1,
-         zipper_bin_tree/1,
-         zipper_map_tree/1
-        ]).
-
--define(EXCLUDED_FUNS,
-        [
-         module_info,
-         all,
-         test,
-         init_per_suite,
-         end_per_suite
-        ]).
+-define(EXCLUDED_FUNS, [module_info, all, test, init_per_suite, end_per_suite]).
 
 -type config() :: [{atom(), term()}].
 
@@ -50,11 +36,7 @@ zipper_list(_Config) ->
 
 -spec zipper_bin_tree(config()) -> {comment, string()}.
 zipper_bin_tree(_Config) ->
-    Root = {1,
-            {2, 3, 4},
-            {5,
-             {6, 7, 8},
-             {9, 10, 11}}},
+    Root = {1, {2, 3, 4}, {5, {6, 7, 8}, {9, 10, 11}}},
     Zipper = zipper_default:bin_tree(Root),
 
     Root = zipper:node(Zipper),
@@ -68,33 +50,28 @@ zipper_bin_tree(_Config) ->
 
 -spec zipper_map_tree(config()) -> {comment, string()}.
 zipper_map_tree(_Config) ->
-    Root = #{type => planet,
-             name => "Earth",
-             children => [
-                          #{type => continent,
-                            name => "America",
-                            children => [
-                                         #{type => country,
-                                           name => "Argentina",
-                                           children => []},
-                                         #{type => country,
-                                           name => "Brasil",
-                                           children => []}
-                                        ]
-                           },
-                          #{type => continent,
-                            name => "Europe",
-                            children => [
-                                         #{type => country,
-                                           name => "Sweden",
-                                           children => []},
-                                         #{type => country,
-                                           name => "England",
-                                           children => []}
-                                        ]
-                           }
-                         ]
-            },
+    Root =
+        #{type => planet,
+          name => "Earth",
+          children =>
+              [#{type => continent,
+                 name => "America",
+                 children =>
+                     [#{type => country,
+                        name => "Argentina",
+                        children => []},
+                      #{type => country,
+                        name => "Brasil",
+                        children => []}]},
+               #{type => continent,
+                 name => "Europe",
+                 children =>
+                     [#{type => country,
+                        name => "Sweden",
+                        children => []},
+                      #{type => country,
+                        name => "England",
+                        children => []}]}]},
     Zipper = zipper_default:map_tree(Root, children),
     #{name := "Earth"} = zipper:node(Zipper),
     #{name := "America"} = zipper:traverse([down, node], Zipper),
@@ -102,6 +79,5 @@ zipper_map_tree(_Config) ->
     #{name := "Brasil"} = zipper:traverse([down, down, right, node], Zipper),
     #{name := "Europe"} = zipper:traverse([down, right, node], Zipper),
     #{name := "Sweden"} = zipper:traverse([down, right, down, node], Zipper),
-    #{name := "England"} = zipper:traverse([down, right, down, right, node],
-                                           Zipper),
+    #{name := "England"} = zipper:traverse([down, right, down, right, node], Zipper),
     {comment, ""}.
