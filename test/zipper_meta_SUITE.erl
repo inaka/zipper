@@ -1,11 +1,11 @@
 -module(zipper_meta_SUITE).
 
--author('euen@inaka.net').
-
 -export([all/0]).
 -export([dialyzer/1, xref/1]).
 
 -type config() :: [{atom(), term()}].
+
+-export_type([config/0]).
 
 -spec all() -> [dialyzer | xref].
 all() ->

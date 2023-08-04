@@ -46,6 +46,10 @@
 -export_type([info/1, is_branch_fun/1, make_node_fun/1, children_fun/1]).
 -export_type([operation/0]).
 
+-elvis([{elvis_style, dont_repeat_yourself, disable}]).
+-elvis([{elvis_style, god_modules, disable}]).
+-elvis([{elvis_style, no_throw, disable}]).
+
 %% @doc Builds a new zipper with nodes of type T.
 -spec new(is_branch_fun(T), children_fun(T), make_node_fun(T), T) -> zipper(T).
 new(IsBranch, Children, MakeNode, Root) ->
@@ -64,27 +68,27 @@ new(IsBranch, Children, MakeNode, Root) ->
 -spec up(zipper(T)) -> zipper(T) | undefined.
 up(#{info := #{parent_node := undefined}}) ->
     undefined;
-up(Zipper =
-       #{spec := #{make_node := MakeNode},
-         node := Node,
-         info :=
-             #{lefts := Lefts,
-               rights := Rights,
-               parent_node := ParentNode,
-               parent_info := ParentInfo,
-               is_modified := true}}) ->
+up(#{spec := #{make_node := MakeNode},
+     node := Node,
+     info :=
+         #{lefts := Lefts,
+           rights := Rights,
+           parent_node := ParentNode,
+           parent_info := ParentInfo,
+           is_modified := true}} =
+       Zipper) ->
     Children = lists:reverse(Lefts) ++ [Node | Rights],
     NewParentNode = MakeNode(ParentNode, Children),
     Zipper#{node => NewParentNode, info => ParentInfo};
-up(Zipper = #{info := #{parent_node := Parent, parent_info := ParentInfo}}) ->
+up(#{info := #{parent_node := Parent, parent_info := ParentInfo}} = Zipper) ->
     Zipper#{node => Parent, info => ParentInfo}.
 
 %% @doc Returns the zipper in the first child, if any.
 -spec down(zipper(T)) -> zipper(T) | undefined.
-down(Zipper =
-         #{node := Node,
-           info := Info,
-           spec := #{children := Children}}) ->
+down(#{node := Node,
+       info := Info,
+       spec := #{children := Children}} =
+         Zipper) ->
     case is_branch(Zipper) of
         true ->
             [NewNode | Rights] = Children(Node),
@@ -102,15 +106,15 @@ down(Zipper =
 -spec left(zipper(T)) -> zipper(T) | undefined.
 left(#{info := #{lefts := []}}) ->
     undefined;
-left(Zipper =
-         #{info := Info = #{lefts := [NewNode | Lefts], rights := Rights}, node := Node}) ->
+left(#{info := Info = #{lefts := [NewNode | Lefts], rights := Rights}, node := Node} =
+         Zipper) ->
     Zipper#{info => Info#{lefts => Lefts, rights => [Node | Rights]}, node => NewNode}.
 
 %% @doc Returns the leftmost zipper in the current zipper.
 -spec leftmost(zipper(T)) -> zipper(T).
-leftmost(Zipper = #{info := #{lefts := []}}) ->
+leftmost(#{info := #{lefts := []}} = Zipper) ->
     Zipper;
-leftmost(Zipper = #{info := Info = #{lefts := Lefts, rights := Rights}, node := Node}) ->
+leftmost(#{info := Info = #{lefts := Lefts, rights := Rights}, node := Node} = Zipper) ->
     Fun = fun(Item, Acc) -> [Item | Acc] end,
     [NewNode | NewRights] = lists:foldl(Fun, [Node | Rights], Lefts),
     Zipper#{info => Info#{lefts => [], rights => NewRights}, node => NewNode}.
@@ -119,20 +123,20 @@ leftmost(Zipper = #{info := Info = #{lefts := Lefts, rights := Rights}, node := 
 -spec right(zipper(T)) -> zipper(T) | undefined.
 right(#{info := #{rights := []}}) ->
     undefined;
-right(Zipper =
-          #{info := Info = #{rights := [NewNode | Rights], lefts := Lefts}, node := Node}) ->
+right(#{info := Info = #{rights := [NewNode | Rights], lefts := Lefts}, node := Node} =
+          Zipper) ->
     Zipper#{info => Info#{rights := Rights, lefts := [Node | Lefts]}, node := NewNode}.
 
 %% @doc Returns the rightmost zipper in the current zipper.
 -spec rightmost(zipper(T)) -> zipper(T).
-rightmost(Zipper = #{info := Info = #{rights := Rights, lefts := Lefts}, node := Node}) ->
+rightmost(#{info := Info = #{rights := Rights, lefts := Lefts}, node := Node} = Zipper) ->
     Fun = fun(Item, Acc) -> [Item | Acc] end,
     [NewNode | NewLefts] = lists:foldl(Fun, [Node | Lefts], Rights),
     Zipper#{info => Info#{lefts => NewLefts, rights => []}, node => NewNode}.
 
 %% @doc Returns the next zipper.
 -spec next(zipper(T)) -> zipper(T).
-next(Zipper = #{info := 'end'}) ->
+next(#{info := 'end'} = Zipper) ->
     Zipper;
 next(Zipper) ->
     case {is_branch(Zipper), right(Zipper)} of
@@ -167,7 +171,7 @@ is_end(_Zipper) ->
 
 %% @doc Returns the previous zipper.
 -spec prev(zipper(T)) -> zipper(T) | undefined.
-prev(Zipper = #{info := #{lefts := []}}) ->
+prev(#{info := #{lefts := []}} = Zipper) ->
     up(Zipper);
 prev(Zipper) ->
     prev_recur(left(Zipper)).
@@ -204,7 +208,7 @@ traverse([Op | Rest], Zipper) ->
 -spec insert_left(T, zipper(T)) -> zipper(T).
 insert_left(_, #{info := #{parent_node := undefined}}) ->
     throw(insert_at_top);
-insert_left(Node, Zipper = #{info := Info = #{lefts := Lefts}}) ->
+insert_left(Node, #{info := Info = #{lefts := Lefts}} = Zipper) ->
     NewInfo = Info#{lefts => [Node | Lefts], is_modified => true},
     Zipper#{info => NewInfo}.
 
@@ -212,25 +216,25 @@ insert_left(Node, Zipper = #{info := Info = #{lefts := Lefts}}) ->
 -spec insert_right(T, zipper(T)) -> zipper(T).
 insert_right(_, #{info := #{parent_node := undefined}}) ->
     throw(insert_at_top);
-insert_right(Node, Zipper = #{info := Info = #{rights := Rights}}) ->
+insert_right(Node, #{info := Info = #{rights := Rights}} = Zipper) ->
     NewInfo = Info#{rights => [Node | Rights], is_modified => true},
     Zipper#{info => NewInfo}.
 
 %% @doc Replaces the current node.
 -spec replace(T, zipper(T)) -> zipper(T).
-replace(Node, Zipper = #{info := Info}) ->
+replace(Node, #{info := Info} = Zipper) ->
     Zipper#{node => Node, info => Info#{is_modified => true}}.
 
 %% @doc Edits the current node by applying the given function.
 %%      The parameters of said function will be [Node | Args].
 -spec edit(fun((...) -> T), [term()], zipper(T)) -> zipper(T).
-edit(Fun, Args, Zipper = #{node := Node, info := Info}) ->
+edit(Fun, Args, #{node := Node, info := Info} = Zipper) ->
     NewNode = erlang:apply(Fun, [Node | Args]),
     Zipper#{node => NewNode, info => Info#{is_modified => true}}.
 
 %% @doc Adds a node as the leftmost child of the current one.
 -spec insert_child(T, zipper(T)) -> zipper(T).
-insert_child(Child, Zipper = #{spec := #{make_node := MakeNode}}) ->
+insert_child(Child, #{spec := #{make_node := MakeNode}} = Zipper) ->
     Node = node(Zipper),
     Children = children(Zipper),
     NewNode = MakeNode(Node, [Child | Children]),
@@ -238,7 +242,7 @@ insert_child(Child, Zipper = #{spec := #{make_node := MakeNode}}) ->
 
 %% @doc Adds a node as the rightmost child of the current one.
 -spec append_child(T, zipper(T)) -> zipper(T).
-append_child(Child, Zipper = #{spec := #{make_node := MakeNode}}) ->
+append_child(Child, #{spec := #{make_node := MakeNode}} = Zipper) ->
     Node = node(Zipper),
     Children = children(Zipper),
     NewNode = MakeNode(Node, Children ++ [Child]),
@@ -343,7 +347,7 @@ node(#{node := Node}) ->
 
 %% @doc Returns the list of children zippers.
 -spec children(zipper(T)) -> [zipper(T)].
-children(Zipper = #{spec := #{children := Children}, node := Node}) ->
+children(#{spec := #{children := Children}, node := Node} = Zipper) ->
     case is_branch(Zipper) of
         true ->
             Children(Node);

@@ -19,6 +19,10 @@
 
 -type config() :: [{atom(), term()}].
 
+-export_type([config/0]).
+
+-elvis([{elvis_style, dont_repeat_yourself, disable}]).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Common test
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -406,7 +410,7 @@ zipper_replace(_Config) ->
 zipper_edit(_Config) ->
     Zipper = zipper_default:map_tree(root(), children),
     EditNameFun =
-        fun(Node = #{attrs := Attrs}, Name) -> Node#{attrs => Attrs#{name => Name}} end,
+        fun(#{attrs := Attrs} = Node, Name) -> Node#{attrs => Attrs#{name => Name}} end,
 
     RenamedEarth = zipper:edit(EditNameFun, ["Big Blue Ball"], Zipper),
     #{attrs := #{name := "Big Blue Ball"}} = zipper:root(RenamedEarth),
@@ -423,7 +427,7 @@ zipper_edit(_Config) ->
 zipper_fmap(_Config) ->
     Zipper = zipper_default:map_tree(root(), children),
     EditNameFun =
-        fun(Node = #{attrs := Attrs}, Name) -> Node#{attrs => Attrs#{name => Name}} end,
+        fun(#{attrs := Attrs} = Node, Name) -> Node#{attrs => Attrs#{name => Name}} end,
 
     RenamedEarth = zipper:fmap(EditNameFun, ["X"], Zipper),
     #{attrs := #{name := "X"},

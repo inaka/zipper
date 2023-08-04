@@ -2,6 +2,10 @@
 
 -export([list/1, bin_tree/1, map_tree/2]).
 
+-type bin_tree_node(T) :: nil | {T, bin_tree_node(T), bin_tree_node(T)}.
+
+-export_type([bin_tree_node/1]).
+
 %% @doc Generates a zipper for lists.
 -spec list(list()) -> zipper:zipper(list()).
 list(Root) ->
@@ -11,8 +15,6 @@ list(Root) ->
     zipper:new(IsBranchFun, ChildrenFun, MakeNodeFun, Root).
 
 %% @doc Generates a zipper for binary trees.
--type bin_tree_node(T) :: nil | {T, bin_tree_node(T), bin_tree_node(T)}.
-
 -spec bin_tree(bin_tree_node(T)) -> zipper:zipper(bin_tree_node(T)).
 bin_tree(Root) ->
     IsBranchFun = fun(Node) -> is_tuple(Node) andalso tuple_size(Node) == 3 end,
