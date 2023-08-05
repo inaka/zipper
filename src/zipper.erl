@@ -46,9 +46,23 @@
 -export_type([info/1, is_branch_fun/1, make_node_fun/1, children_fun/1]).
 -export_type([operation/0]).
 
+-ifdef(TEST).
+
+-export([as_list_of_maps/1]).
+
+-endif.
+
 -elvis([{elvis_style, dont_repeat_yourself, disable}]).
 -elvis([{elvis_style, god_modules, disable}]).
 -elvis([{elvis_style, no_throw, disable}]).
+
+-ifdef(TEST).
+
+-spec as_list_of_maps([zipper(any())]) -> [map()].
+as_list_of_maps(Children) ->
+    Children.
+
+-endif.
 
 %% @doc Builds a new zipper with nodes of type T.
 -spec new(is_branch_fun(T), children_fun(T), make_node_fun(T), T) -> zipper(T).

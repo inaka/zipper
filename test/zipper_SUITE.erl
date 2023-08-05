@@ -47,7 +47,9 @@ zipper_node(_Config) ->
 zipper_children(_Config) ->
     Root = root(),
     Zipper = zipper_default:map_tree(Root, children),
-    Children = zipper:children(Zipper),
+    Children =
+        zipper:as_list_of_maps(
+            zipper:children(Zipper)),
     Children = maps:get(children, Root),
 
     ArgZipper = zipper:traverse([next, next], Zipper),
