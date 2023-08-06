@@ -1,13 +1,6 @@
 doc/
-.erlang.mk/
-zipper.d
-.eunit
-deps
-*.o
-*.beam
-*.plt
 erl_crash.dump
-ebin
-.erlang.mk.*
-log*/
-_build/
+rebar3.crashdump
+.rebar3
+_*
+logs
