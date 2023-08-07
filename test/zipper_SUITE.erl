@@ -1,19 +1,16 @@
 -module(zipper_SUITE).
 
 -export([all/0]).
--export([zipper_node/1, zipper_children/1, zipper_root/1, zipper_next/1, zipper_prev/1,
-         zipper_up/1, zipper_down/1, zipper_left/1, zipper_right/1, zipper_leftmost/1,
-         zipper_rightmost/1, zipper_insert_left/1, zipper_insert_right/1, zipper_replace/1,
-         zipper_edit/1, zipper_insert_child/1, zipper_append_child/1, zipper_remove/1,
-         zipper_map/1, zipper_fmap/1, zipper_filter/1, zipper_size/1]).
-
-                                                                                %% Info
-
-         %% Traverse
-
-         %% Editing
-
-         %% Iteration
+%% Info
+-export([zipper_node/1, zipper_children/1]).
+%% Traverse
+-export([zipper_root/1, zipper_next/1, zipper_prev/1, zipper_up/1, zipper_down/1,
+         zipper_left/1, zipper_right/1, zipper_leftmost/1, zipper_rightmost/1]).
+%% Editing
+-export([zipper_insert_left/1, zipper_insert_right/1, zipper_replace/1, zipper_edit/1,
+         zipper_insert_child/1, zipper_append_child/1, zipper_remove/1]).
+%% Iteration
+-export([zipper_map/1, zipper_fmap/1, zipper_filter/1, zipper_size/1]).
 
 -define(EXCLUDED_FUNS, [module_info, all, test, init_per_suite, end_per_suite]).
 

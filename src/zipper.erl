@@ -5,20 +5,18 @@
 
 -compile({no_auto_import, [node/1]}).
 
--export([new/4, up/1, down/1, left/1, leftmost/1, right/1, rightmost/1, next/1, is_end/1,
-         prev/1, root/1, traverse/2, insert_left/2, insert_right/2, replace/2, edit/3,
-         insert_child/2, append_child/2, remove/1, map/2, fmap/3, filter/2, fold/3, size/1, node/1,
-         children/1, is_branch/1]).
-
-                                            %% Creation
-
-         %% Traverse
-
-         %% Editing
-
-         %% Iteration
-
-         %% Info
+%% Creation
+-export([new/4]).
+%% Traverse
+-export([up/1, down/1, left/1, leftmost/1, right/1, rightmost/1, next/1, is_end/1, prev/1,
+         root/1, traverse/2]).
+%% Editing
+-export([insert_left/2, insert_right/2, replace/2, edit/3, insert_child/2, append_child/2,
+         remove/1]).
+%% Iteration
+-export([map/2, fmap/3, filter/2, fold/3, size/1]).
+%% Info
+-export([node/1, children/1, is_branch/1]).
 
 -type is_branch_fun(T) :: fun((T) -> boolean()).
 -type make_node_fun(T) :: fun((T, [T]) -> T).
