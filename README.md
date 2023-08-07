@@ -1,3 +1,5 @@
+# Zipper [![GitHub Actions CI](https://github.com/inaka/zipper/workflows/build/badge.svg)](https://github.com/inaka/zipper)
+
 Generic zipper implementation in Erlang.
 
 ## Zippers: what are they good for?
