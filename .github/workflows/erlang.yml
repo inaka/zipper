@@ -43,3 +43,5 @@ jobs:
         run: rebar3 format --verify
       - name: Run tests and verifications
         run: rebar3 test
+      - name: Run meta verifications
+        run: rebar3 as test test
