@@ -3,5 +3,3 @@ extends: default
 rules:
   line-length:
     max: 100
-ignore: |
-  CHANGELOG.md
