@@ -7,7 +7,7 @@ Zippers let you traverse immutable data structures with ease and flexibility.
 ### Contact Us
 If you find any **bugs** or have a **problem** while using this library, please [open an issue](https://github.com/inaka/zipper/issues/new) in this repo (or a pull request :)).
 
-And you can check all of our open-source projects at [inaka.github.io](http://inaka.github.io)
+And you can check all of our open-source projects at [inaka.github.io](https://inaka.github.io)
 
 ## Usage
 
@@ -105,4 +105,4 @@ Therefore, it's really important to have the branch updated and pushed to github
 ## References
 
 - [The Zipper, GERARD HUET](https://www.st.cs.uni-saarland.de/edu/seminare/2005/advanced-fp/docs/huet-zipper.pdf)
-- [clojure.zip](http://clojure.github.io/clojure/clojure.zip-api.html#clojure.zip/zipper)
+- [clojure.zip](https://clojure.github.io/clojure/clojure.zip-api.html#clojure.zip/zipper)
