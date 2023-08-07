@@ -1,7 +1,6 @@
 %%% @doc Generic Zipper Implementation.
 %%%      Zippers let you traverse immutable data structures with ease and
 %%%      flexibility.
-%%% @end
 -module(zipper).
 
 -compile({no_auto_import, [node/1]}).
@@ -306,7 +305,6 @@ map(Fun, Zipper) ->
 %%      (after the current location of Zipper) is replaced with the
 %%      result from applying Fun to the node as the first argument
 %%      and Args as additional arguments.
-%% @end
 -spec fmap(fun((...) -> T), [term()], zipper(T)) -> T.
 fmap(Fun, Args, Zipper) ->
     NewZipper = edit(Fun, Args, Zipper),
