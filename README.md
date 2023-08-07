@@ -8,7 +8,8 @@ Zippers let you traverse immutable data structures with ease and flexibility.
 
 ### Contact Us
 
-If you find any **bugs** or have a **problem** while using this library, please [open an issue](https://github.com/inaka/zipper/issues/new) in this repo (or a pull request :)).
+If you find any **bugs** or have a **problem** while using this library, please
+[open an issue](https://github.com/inaka/zipper/issues/new) in this repo (or a pull request :)).
 
 And you can check all of our open-source projects at [inaka.github.io](https://inaka.github.io)
 
@@ -89,7 +90,9 @@ io:format("~p", [America]),
 
 ## Tests
 
-Circular dependency in test environment ([Katana Test](https://github.com/inaka/katana-test) -> [Elvis Core](https://github.com/inaka/elvis_core) -> [Zipper](https://github.com/inaka/zipper)) is fixed by including Zipper as a dep in the test profile in `rebar.config`
+Circular dependency in test environment ([Katana Test](https://github.com/inaka/katana-test) ->
+[Elvis Core](https://github.com/inaka/elvis_core) -> [Zipper](https://github.com/inaka/zipper)) is
+fixed by including Zipper as a dep in the test profile in `rebar.config`
 
 ```erlang
 ...
@@ -106,7 +109,8 @@ Circular dependency in test environment ([Katana Test](https://github.com/inaka/
 ```
 
 but then, we still replace the tag with the current branch. This is done in `rebar.config.script`.
-Therefore, it's really important to have the branch updated and pushed to github before running the tests with `rebar3 ct`.
+Therefore, it's really important to have the branch updated and pushed to github before running the
+tests with `rebar3 ct`.
 
 ## References
 
