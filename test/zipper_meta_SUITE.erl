@@ -19,7 +19,7 @@ dialyzer(_Config) ->
         filelib:wildcard(
             filename:join(DefaultRebar3PltLoc, "*_plt")),
     Dirs = [filename:join(BaseDir, Dir) || Dir <- ["ebin", "test"]],
-    Warnings = [error_handling, race_conditions, unmatched_returns],
+    Warnings = [error_handling, unmatched_returns],
     ct:comment("Dialyzer must emit no warnings"),
     Opts =
         [{analysis_type, succ_typings},
