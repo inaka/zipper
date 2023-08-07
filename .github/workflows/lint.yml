@@ -17,6 +17,7 @@ jobs:
           globs: |
             *.md
             LICENSE
+            !CHANGELOG.md
 
       - name: yamllint
         uses: ibiqlik/action-yamllint@v3
