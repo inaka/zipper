@@ -1,0 +1,28 @@
+---
+name: Lint
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # uses .markdownlint-cli2.yaml for configuration
+      - name: markdownlint
+        uses: DavidAnson/markdownlint-cli2-action@v11
+        with:
+          globs: |
+            *.md
+            LICENSE
+
+      - name: yamllint
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: |
+            .github/**/erlang.yml
+            .*.yml
+          strict: true
+          config_file: .yamllint.yml
