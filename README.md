@@ -1,3 +1,5 @@
+# Zipper [![GitHub Actions CI](https://github.com/inaka/zipper/workflows/build/badge.svg)](https://github.com/inaka/zipper)
+
 Generic zipper implementation in Erlang.
 
 ## Zippers: what are they good for?
@@ -5,9 +7,11 @@ Generic zipper implementation in Erlang.
 Zippers let you traverse immutable data structures with ease and flexibility.
 
 ### Contact Us
-If you find any **bugs** or have a **problem** while using this library, please [open an issue](https://github.com/inaka/zipper/issues/new) in this repo (or a pull request :)).
 
-And you can check all of our open-source projects at [inaka.github.io](http://inaka.github.io)
+If you find any **bugs** or have a **problem** while using this library, please
+[open an issue](https://github.com/inaka/zipper/issues/new) in this repo (or a pull request :)).
+
+And you can check all of our open-source projects at [inaka.github.io](https://inaka.github.io)
 
 ## Usage
 
@@ -44,6 +48,7 @@ Root = #{type => planet,
 ```
 
 You can build a zipper by providing three simple functions:
+
 - `IsBranchFun`: takes a node and returns `true` if it is a branch node or
   `false` otherwise.
 - `ChildrenFun`: takes a node and returns a list of its children.
@@ -85,7 +90,10 @@ io:format("~p", [America]),
 
 ## Tests
 
-Circular dependency in test environment ([Katana Test](https://github.com/inaka/katana-test) -> [Elvis Core](https://github.com/inaka/elvis_core) -> [Zipper](https://github.com/inaka/zipper)) is fixed by including Zipper as a dep in the test profile in `rebar.config`
+Circular dependency in test environment ([Katana Test](https://github.com/inaka/katana-test) ->
+[Elvis Core](https://github.com/inaka/elvis_core) -> [Zipper](https://github.com/inaka/zipper)) is
+fixed by including Zipper as a dep in the test profile in `rebar.config`
+
 ```erlang
 ...
 {profiles, [
@@ -99,10 +107,12 @@ Circular dependency in test environment ([Katana Test](https://github.com/inaka/
 ]}.
 ...
 ```
+
 but then, we still replace the tag with the current branch. This is done in `rebar.config.script`.
-Therefore, it's really important to have the branch updated and pushed to github before running the tests with `rebar3 ct`.
+Therefore, it's really important to have the branch updated and pushed to github before running the
+tests with `rebar3 ct`.
 
 ## References
 
 - [The Zipper, GERARD HUET](https://www.st.cs.uni-saarland.de/edu/seminare/2005/advanced-fp/docs/huet-zipper.pdf)
-- [clojure.zip](http://clojure.github.io/clojure/clojure.zip-api.html#clojure.zip/zipper)
+- [clojure.zip](https://clojure.github.io/clojure/clojure.zip-api.html#clojure.zip/zipper)
