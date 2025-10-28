@@ -90,7 +90,8 @@ up(#{spec := #{make_node := MakeNode},
        Zipper) ->
     Children = lists:reverse(Lefts) ++ [Node | Rights],
     NewParentNode = MakeNode(ParentNode, Children),
-    Zipper#{node => NewParentNode, info => ParentInfo};
+    NewParentInfo = maps:put(is_modified, true, ParentInfo),
+    Zipper#{node => NewParentNode, info => NewParentInfo};
 up(#{info := #{parent_node := Parent, parent_info := ParentInfo}} = Zipper) ->
     Zipper#{node => Parent, info => ParentInfo}.
 
