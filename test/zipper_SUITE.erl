@@ -136,7 +136,7 @@ zipper_up_modified(_Config) ->
   Zipper3 = zipper:up(Zipper2),
   Zipper4 = zipper:traverse([next, next, next], Zipper3),
   Attrs = maps:get(attrs, zipper:node(Zipper4)),
-  Attrs = #{name => "Peru"},
+  #{name => "Peru"} = Attrs,
   {comment, ""}.
 
 -spec zipper_right(config()) -> {comment, string()}.
