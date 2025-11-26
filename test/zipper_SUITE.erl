@@ -4,8 +4,8 @@
 %% Info
 -export([zipper_node/1, zipper_children/1]).
 %% Traverse
--export([zipper_root/1, zipper_next/1, zipper_prev/1, zipper_up/1, zipper_up_modified/1, zipper_down/1,
-         zipper_left/1, zipper_right/1, zipper_leftmost/1, zipper_rightmost/1]).
+-export([zipper_root/1, zipper_next/1, zipper_prev/1, zipper_up/1, zipper_up_modified/1,
+         zipper_down/1, zipper_left/1, zipper_right/1, zipper_leftmost/1, zipper_rightmost/1]).
 %% Editing
 -export([zipper_insert_left/1, zipper_insert_right/1, zipper_replace/1, zipper_edit/1,
          zipper_insert_child/1, zipper_append_child/1, zipper_remove/1]).
@@ -126,18 +126,18 @@ zipper_up(_Config) ->
 
 -spec zipper_up_modified(config()) -> {comment, string()}.
 zipper_up_modified(_Config) ->
-  Zipper = zipper_default:map_tree(root(), children),
-  undefined = zipper:up(Zipper),
-  Zipper1 = zipper:traverse([next, next, next], Zipper),
-  Brasil = zipper:node(Zipper1),
-  Brasil2 = maps:put(attrs, #{name => "Peru"}, Brasil),
-  ModifiedZipper1 = zipper:replace(Brasil2, Zipper1),
-  Zipper2 = zipper:up(ModifiedZipper1),
-  Zipper3 = zipper:up(Zipper2),
-  Zipper4 = zipper:traverse([next, next, next], Zipper3),
-  Attrs = maps:get(attrs, zipper:node(Zipper4)),
-  #{name => "Peru"} = Attrs,
-  {comment, ""}.
+    Zipper = zipper_default:map_tree(root(), children),
+    undefined = zipper:up(Zipper),
+    Zipper1 = zipper:traverse([next, next, next], Zipper),
+    Brasil = zipper:node(Zipper1),
+    Brasil2 = maps:put(attrs, #{name => "Peru"}, Brasil),
+    ModifiedZipper1 = zipper:replace(Brasil2, Zipper1),
+    Zipper2 = zipper:up(ModifiedZipper1),
+    Zipper3 = zipper:up(Zipper2),
+    Zipper4 = zipper:traverse([next, next, next], Zipper3),
+    Attrs = maps:get(attrs, zipper:node(Zipper4)),
+    #{name => "Peru"} = Attrs,
+    {comment, ""}.
 
 -spec zipper_right(config()) -> {comment, string()}.
 zipper_right(_Config) ->
